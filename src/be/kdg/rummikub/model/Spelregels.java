@@ -1,6 +1,7 @@
 package be.kdg.rummikub.model;
 
-//import org.json.JSONObject;
+
+import org.json.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,7 +12,7 @@ import java.util.Scanner;
 public class Spelregels {
     public String getSpelregels() {
         StringBuilder tekst = new StringBuilder();
-        Path bestand = Paths.get("src" + File.separator + "be" + File.separator + "kdg" + File.separator + "rummikub" + File.separator + "spelregels" + File.separator + "spelregels.json");
+        Path bestand = Paths.get( "resources/jsonBestanden/spelregels.json");
 
         if (Files.exists(bestand)){
             try {
@@ -28,11 +29,17 @@ public class Spelregels {
     }
 
     public int getTijdslimietInSeconden() {
-        /*
         JSONObject jsonObj = new JSONObject(getSpelregels());
         return jsonObj.getInt("tijdslimietInSeconden");
-
-         */return 0;
     }
 
+    public int getMinimunAantalPuntenEersteZet() {
+        JSONObject jsonObj = new JSONObject(getSpelregels());
+        return jsonObj.getInt("aantalPuntenMinimaalEersteZet");
+    }
+
+    public int getstartAantalSteentejes() {
+        JSONObject jsonObj = new JSONObject(getSpelregels());
+        return jsonObj.getInt("startAantalSteentejes");
+    }
 }

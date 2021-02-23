@@ -34,12 +34,14 @@ public class Rij {
                 if (i != 0) {
                     if (steenInRij.get(i).getKleur() == steenInRij.get(i - 1).getKleur() && steenInRij.get(i).getWaarde() == (steenInRij.get(i - 1).getWaarde() + 1)) {
                         controle = true;
+                        rijColorType = true;
+                    } else if (steenInRij.get(i).getWaarde() == getSteenInRij().get(i - 1).getWaarde() && steenInRij.get(i).getKleur() != steenInRij.get(i - 1).getKleur()) {
+                        controle = true;
+                        rijColorType = false;
                     } else {
-                        controle = steenInRij.get(i).getWaarde() == getSteenInRij().get(i - 1).getWaarde() && steenInRij.get(i).getKleur() != steenInRij.get(i - 1).getKleur();
+                        controle = false;
                     }
-
                 }
-
             }
 
         } else {

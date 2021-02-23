@@ -6,6 +6,9 @@ import be.kdg.rummikub.model.Spel;
 import be.kdg.rummikub.model.Spelregels;
 import be.kdg.rummikub.model.steen.Kleur;
 import be.kdg.rummikub.model.steen.Steen;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.Scanner;
 
 public class ConsoleMain {
