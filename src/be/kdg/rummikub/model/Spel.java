@@ -95,7 +95,7 @@ public class Spel {
             String jsonString = mapper.writeValueAsString(spel);
 
             try {
-                Formatter fm = new Formatter("resources/jsonBestanden/spelregels.json");
+                Formatter fm = new Formatter("resources/jsonBestanden/spel.json");
                 fm.format(jsonString);
                 fm.close();
             } catch (IOException e) {

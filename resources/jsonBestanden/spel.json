@@ -1,3 +1,186 @@
 {
-
+  "beurt" : 1,
+  "pot" : {
+    "stenen" : [ {
+      "kleur" : "GEEL",
+      "waarde" : 1
+    }, {
+      "kleur" : "BLAUW",
+      "waarde" : 1
+    }, {
+      "kleur" : "ZWART",
+      "waarde" : 3
+    }, {
+      "kleur" : "BLAUW",
+      "waarde" : 3
+    }, {
+      "kleur" : "ROOD",
+      "waarde" : 3
+    }, {
+      "kleur" : "ZWART",
+      "waarde" : 4
+    }, {
+      "kleur" : "BLAUW",
+      "waarde" : 4
+    }, {
+      "kleur" : "GEEL",
+      "waarde" : 5
+    }, {
+      "kleur" : "ZWART",
+      "waarde" : 5
+    }, {
+      "kleur" : "BLAUW",
+      "waarde" : 5
+    }, {
+      "kleur" : "ZWART",
+      "waarde" : 6
+    }, {
+      "kleur" : "BLAUW",
+      "waarde" : 6
+    }, {
+      "kleur" : "ROOD",
+      "waarde" : 6
+    }, {
+      "kleur" : "GEEL",
+      "waarde" : 7
+    }, {
+      "kleur" : "BLAUW",
+      "waarde" : 7
+    }, {
+      "kleur" : "ROOD",
+      "waarde" : 7
+    }, {
+      "kleur" : "GEEL",
+      "waarde" : 8
+    }, {
+      "kleur" : "ZWART",
+      "waarde" : 8
+    }, {
+      "kleur" : "BLAUW",
+      "waarde" : 8
+    }, {
+      "kleur" : "GEEL",
+      "waarde" : 9
+    }, {
+      "kleur" : "BLAUW",
+      "waarde" : 9
+    }, {
+      "kleur" : "ROOD",
+      "waarde" : 9
+    }, {
+      "kleur" : "ZWART",
+      "waarde" : 10
+    }, {
+      "kleur" : "BLAUW",
+      "waarde" : 10
+    }, {
+      "kleur" : "ROOD",
+      "waarde" : 10
+    }, {
+      "kleur" : "ZWART",
+      "waarde" : 11
+    }, {
+      "kleur" : "GEEL",
+      "waarde" : 12
+    }, {
+      "kleur" : "ZWART",
+      "waarde" : 12
+    }, {
+      "kleur" : "BLAUW",
+      "waarde" : 12
+    }, {
+      "kleur" : "GEEL",
+      "waarde" : 13
+    }, {
+      "kleur" : "ZWART",
+      "waarde" : 13
+    }, {
+      "kleur" : "ROOD",
+      "waarde" : 13
+    }, {
+      "kleur" : "ZWART",
+      "waarde" : 0
+    }, {
+      "kleur" : "ROOD",
+      "waarde" : 0
+    } ],
+    "randomSteen" : {
+      "kleur" : "ZWART",
+      "waarde" : 8
+    }
+  },
+  "spelers" : [ {
+    "stenen" : [ {
+      "kleur" : "BLAUW",
+      "waarde" : 11
+    }, {
+      "kleur" : "ROOD",
+      "waarde" : 4
+    }, {
+      "kleur" : "BLAUW",
+      "waarde" : 2
+    }, {
+      "kleur" : "GEEL",
+      "waarde" : 11
+    }, {
+      "kleur" : "ZWART",
+      "waarde" : 7
+    }, {
+      "kleur" : "GEEL",
+      "waarde" : 10
+    }, {
+      "kleur" : "ZWART",
+      "waarde" : 2
+    }, {
+      "kleur" : "ZWART",
+      "waarde" : 1
+    }, {
+      "kleur" : "ROOD",
+      "waarde" : 2
+    }, {
+      "kleur" : "ROOD",
+      "waarde" : 8
+    } ],
+    "aantalGezettenZetten" : 0,
+    "naam" : "speler 0",
+    "gewonnen" : false
+  }, {
+    "stenen" : [ {
+      "kleur" : "ZWART",
+      "waarde" : 9
+    }, {
+      "kleur" : "GEEL",
+      "waarde" : 2
+    }, {
+      "kleur" : "GEEL",
+      "waarde" : 3
+    }, {
+      "kleur" : "ROOD",
+      "waarde" : 5
+    }, {
+      "kleur" : "GEEL",
+      "waarde" : 4
+    }, {
+      "kleur" : "ROOD",
+      "waarde" : 12
+    }, {
+      "kleur" : "BLAUW",
+      "waarde" : 13
+    }, {
+      "kleur" : "GEEL",
+      "waarde" : 6
+    }, {
+      "kleur" : "ROOD",
+      "waarde" : 11
+    }, {
+      "kleur" : "ROOD",
+      "waarde" : 1
+    } ],
+    "aantalGezettenZetten" : 0,
+    "naam" : "speler 1",
+    "gewonnen" : false
+  } ],
+  "spelbord" : {
+    "rijen" : [ ]
+  }
 }
