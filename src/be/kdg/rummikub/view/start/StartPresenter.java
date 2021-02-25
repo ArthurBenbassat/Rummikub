@@ -5,6 +5,8 @@ import be.kdg.rummikub.view.spelregels.SpelregelsPresenter;
 import be.kdg.rummikub.view.spelregels.SpelregelsView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class StartPresenter {
     private Spel model;
@@ -29,6 +31,7 @@ public class StartPresenter {
 
     }
     private void updateView() {
-
+        //view.afbeelding.setImage(new Image("/fotos/stenen/B1.png"));
+        view.afbeelding.setImage(new Image(model.getPot().getStenen().get(0).getPad()));
     }
 }
