@@ -1,8 +1,8 @@
 package be.kdg.rummikub.model;
 
 
-import org.json.*;
-import java.io.File;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -40,6 +40,6 @@ public class Spelregels {
 
     public int getstartAantalSteentejes() {
         JSONObject jsonObj = new JSONObject(getSpelregels());
-        return jsonObj.getInt("startAantalSteentejes");
+        return jsonObj.getInt("startAantalSteentjes");
     }
 }

@@ -1,12 +1,12 @@
 package be.kdg.rummikub.view.start;
 
 import be.kdg.rummikub.model.Spel;
+import be.kdg.rummikub.view.spel.SpelPresenter;
+import be.kdg.rummikub.view.spel.SpelView;
 import be.kdg.rummikub.view.spelregels.SpelregelsPresenter;
 import be.kdg.rummikub.view.spelregels.SpelregelsView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 public class StartPresenter {
     private Spel model;
@@ -29,9 +29,19 @@ public class StartPresenter {
             }
         });
 
+        view.getBtnStart().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                SpelView spelView = new SpelView();
+                new SpelPresenter(model, spelView);
+                view.getScene().setRoot(spelView);
+            }
+        });
+
     }
     private void updateView() {
-        //view.afbeelding.setImage(new Image("/fotos/stenen/B1.png"));
-        view.afbeelding.setImage(new Image(model.getPot().getStenen().get(0).getPad()));
+        //view.imgAfbeelding.setImage(new Image("/fotos/stenen/B1.png"));
+        //iew.imgAfbeelding.setImage(new Image(model.getPot().getStenen().get(0).getPad()));
+
     }
 }

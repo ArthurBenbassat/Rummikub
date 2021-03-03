@@ -1,22 +1,9 @@
 package be.kdg.rummikub;
 
-import be.kdg.rummikub.Console.Console;
 import be.kdg.rummikub.model.Rij;
 import be.kdg.rummikub.model.Spel;
-import be.kdg.rummikub.model.Spelregels;
-import be.kdg.rummikub.model.steen.Kleur;
 import be.kdg.rummikub.model.steen.Steen;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.google.gson.Gson;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Formatter;
 import java.util.Scanner;
 
 public class ConsoleMain {
