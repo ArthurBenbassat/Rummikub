@@ -36,8 +36,8 @@ public class Spel {
         pot = new Pot();
 
         spelers = new Deelnemer[spelersAantal];
-        for (int i = 0; i<spelersAantal;i++){
-            spelers[i] = new Speler("speler "+i);
+        for (int i = 0; i<spelersAantal; i++){
+            spelers[i] = new Speler("speler "+ i);
         }
 
         startSpel();
@@ -55,7 +55,7 @@ public class Spel {
 
     public void startVerdeelStenen() {
         for (Deelnemer speler : spelers) {
-            for (int j = 0; j < 10; j++) {
+            for (int j = 0; j < 14; j++) {
                 Steen steen = pot.getRandomSteen();
                 speler.addSteen(steen);
                 pot.getStenen().remove(steen);
@@ -64,19 +64,18 @@ public class Spel {
 
     }
 
-    public void zetAllesTerug() {
+    public void zetAllesTerug() throws IOException{
         StringBuilder tekst = new StringBuilder();
         Path bestand = Paths.get( "resources/jsonBestanden/spel.json");
 
         if (Files.exists(bestand)){
             try {
-
                 Scanner fileScanner = new Scanner(bestand);
                 while (fileScanner.hasNext()) {
                     tekst.append(fileScanner.nextLine());
                 }
             } catch (IOException e){
-                System.out.println(e.toString());
+                throw new IOException(e);
             }
         }
         Gson gson = new Gson();

@@ -1,14 +1,16 @@
 package be.kdg.rummikub.view.spelregels;
 
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 
 public class SpelregelsView extends BorderPane {
     private Label lblRegels;
     private Button btnTerug;
+
+    private MenuItem exitMI;
+    private MenuItem infoMI;
+    private MenuItem overOnsMI;
+    private MenuItem statistiekenMI;
 
     public SpelregelsView() {
         this.initialiseNodes();
@@ -18,6 +20,11 @@ public class SpelregelsView extends BorderPane {
         // Initialisatie van de Nodes
         this.btnTerug = new Button("Ga terug naar de home");
         this.lblRegels = new Label();
+
+        this.exitMI = new MenuItem("Exit");
+        this.infoMI = new MenuItem("Info");
+        this.overOnsMI = new MenuItem("Over ons");
+        this.statistiekenMI = new MenuItem("Statistieken");
     }
     private void layoutNodes() {
 
@@ -25,6 +32,12 @@ public class SpelregelsView extends BorderPane {
 
         this.setCenter(lblRegels);
         //lblRegels.setText(new SpelregelsPresenter());
+
+        Menu menuFile = new Menu("File", null, statistiekenMI, new javafx.scene.control.SeparatorMenuItem(), new javafx.scene.control.SeparatorMenuItem(), exitMI);
+        Menu menuHelp = new Menu("Help", null, overOnsMI, infoMI);
+        MenuBar menuBar = new MenuBar(menuFile, menuHelp);
+        setTop(menuBar);
+
     }
 
     // implementatie van de nodige
@@ -36,5 +49,13 @@ public class SpelregelsView extends BorderPane {
     public void changeRegels(String regels) {
         lblRegels.setText(regels);
     }
+
+    public MenuItem getExitMI() { return exitMI; }
+
+    public MenuItem getInfoMI() { return infoMI; }
+
+    public MenuItem getOverOnsMI() { return overOnsMI; }
+
+    public MenuItem getStatistiekenMI() { return statistiekenMI; }
 
 }

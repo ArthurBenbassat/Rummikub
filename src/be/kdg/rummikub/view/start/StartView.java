@@ -3,11 +3,9 @@ package be.kdg.rummikub.view.start;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -19,11 +17,16 @@ public class StartView extends BorderPane {
     ImageView imgAfbeelding;
     private Label lblTitelSpel;
     private VBox vbox;
+    private MenuItem exitMI;
+    private MenuItem infoMI;
+    private MenuItem overOnsMI;
+    private MenuItem statistiekenMI;
 
     public StartView() {
         this.initialiseNodes();
         this.layoutNodes();
     }
+
     private void initialiseNodes() {
         // Initialisatie van de Nodes
         this.btnStart = new Button("Start spel");
@@ -31,15 +34,21 @@ public class StartView extends BorderPane {
         this.imgAfbeelding = new ImageView("/fotos/achtergrond-foto.jpg");
         this.vbox = new VBox();
         this.lblTitelSpel = new Label("Rummikub");
+
+        this.exitMI = new MenuItem("Exit");
+        this.infoMI = new MenuItem("Info");
+        this.overOnsMI = new MenuItem("Over ons");
+        this.statistiekenMI = new MenuItem("Statistieken");
     }
+
     private void layoutNodes() {
         // Layout van de Nodes
-        
+
         //settings lblTitelSpel
         this.setTop(this.lblTitelSpel);
-        BorderPane.setMargin(lblTitelSpel, new Insets(10,10,10,10));
-        BorderPane.setAlignment(lblTitelSpel,Pos.CENTER);
-        this.lblTitelSpel.setFont(new Font("Arial",50));
+        BorderPane.setMargin(lblTitelSpel, new Insets(10, 10, 10, 10));
+        BorderPane.setAlignment(lblTitelSpel, Pos.CENTER);
+        this.lblTitelSpel.setFont(new Font("Arial", 50));
         lblTitelSpel.setTextFill(Color.BLUE);
 
         //settings btnStart
@@ -58,12 +67,19 @@ public class StartView extends BorderPane {
         //setting btnSpelregels
         this.setBottom(btnSpelregels);
         BorderPane.setAlignment(btnSpelregels, Pos.BOTTOM_CENTER);
-        BorderPane.setMargin(btnSpelregels,new Insets(10,10,10,10));
+        BorderPane.setMargin(btnSpelregels, new Insets(10, 10, 10, 10));
+
+        Menu menuFile = new Menu("File", null, statistiekenMI, new SeparatorMenuItem(), new javafx.scene.control.SeparatorMenuItem(), exitMI);
+        Menu menuHelp = new Menu("Help", null, overOnsMI, infoMI);
+        MenuBar menuBar = new MenuBar(menuFile, menuHelp);
+        setTop(menuBar);
 
     }
+
     public ImageView getAfbeelding() {
         return imgAfbeelding;
     }
+
     // implementatie van de nodige
     // package-private Getters
     public Button getBtnStart() {
@@ -73,4 +89,12 @@ public class StartView extends BorderPane {
     public Button getBtnSpelregels() { return this.btnSpelregels; }
 
     public Label getLblTitelSpel() { return lblTitelSpel; }
+
+    public MenuItem getExitMI() { return exitMI; }
+
+    public MenuItem getInfoMI() { return infoMI; }
+
+    public MenuItem getOverOnsMI() { return overOnsMI; }
+
+    public MenuItem getStatistiekenMI() { return statistiekenMI; }
 }

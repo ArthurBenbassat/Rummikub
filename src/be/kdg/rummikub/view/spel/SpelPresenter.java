@@ -2,15 +2,14 @@ package be.kdg.rummikub.view.spel;
 
 import be.kdg.rummikub.model.Spel;
 import be.kdg.rummikub.model.steen.Steen;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 
 public class SpelPresenter {
     private final Spel model;
@@ -19,51 +18,62 @@ public class SpelPresenter {
     public SpelPresenter(Spel model, SpelView view) {
         this.model = model;
         this.view = view;
-        this.addEventHandlers();
+
         this.updateView();
+        this.addEventHandlers();
     }
 
     private void addEventHandlers() {
-        view.test.setOnDragDetected(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                System.out.println("ikh aat dit");
-                Dragboard db = view.test.startDragAndDrop(TransferMode.ANY);
-                mouseEvent.consume();
-            }
-        });
-        try {
-            view.getHbxEigenStenen().getChildren().get(0).setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    System.out.println("test");
 
-                    mouseEvent.consume();
-                }
+        view.getBtnVraagExtraSteen().setOnMouseClicked(mouseEvent -> {
+            model.volgendeSpeler();
+            Steen extraSteen = model.getPot().getRandomSteen();
+            model.getSpelers()[0].addSteen(extraSteen);
+            model.getPot().getStenen().remove(extraSteen);
+            this.updateView();
+        });
+
+
+        for (Node child : view.getHbxEigenStenen().getChildren()) {
+            child.setOnDragDetected(mouseEvent -> {
+
+                Dragboard db = child.startDragAndDrop(TransferMode.ANY);
+                ClipboardContent content = new ClipboardContent();
+                content.putString(child.getId());
+                db.setContent(content);
+                mouseEvent.consume();
+                System.out.println("1");
             });
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("f");
         }
 
         for (Node child : view.getHbxEigenStenen().getChildren()) {
-            child.setOnDragDetected(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    System.out.println("test");
+            child.setOnDragOver(mouseEvent -> {
+
+                if (mouseEvent.getGestureSource() != child) {
+                    mouseEvent.acceptTransferModes(TransferMode.COPY_OR_MOVE);
                 }
+                mouseEvent.consume();
+                System.out.println(2);
             });
         }
+
+        for (Node child : view.getHbxEigenStenen().getChildren()) {
+            child.setOnDragDone(mouseEvent -> System.out.println(child.getId()));
+        }
+
     }
 
     private void updateView() {
+        view.getHbxEigenStenen().getChildren().clear();
         for (Steen steen : model.getSpelers()[0].getStenen()) {
-            ImageView steenAfbeelding = new ImageView(steen.getPad());
+            ImageView steenAfbeelding = new ImageView(new Image(steen.getPad()));
             steenAfbeelding.setFitHeight(40);
             steenAfbeelding.setFitWidth(55);
             view.getHbxEigenStenen().getChildren().add(steenAfbeelding);
-            HBox.setHgrow(steenAfbeelding, Priority.ALWAYS);
+            HBox.setMargin(steenAfbeelding, new Insets(5));
         }
-        view.getHbxEigenStenen().setPadding(new Insets(10));
+        view.getHbxEigenStenen().getChildren().add(view.getBtnVraagExtraSteen());
+
 
     }
 }

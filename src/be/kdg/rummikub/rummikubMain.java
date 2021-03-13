@@ -16,8 +16,7 @@ public class rummikubMain extends Application {
         Scene scene = new Scene(view);
 
         primaryStage.setTitle("Rummikub");
-        primaryStage.setHeight(800);
-        primaryStage.setWidth(1400);
+        primaryStage.setMaximized(true);
 
         primaryStage.setScene(scene);
         primaryStage.show();
