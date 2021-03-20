@@ -3,20 +3,26 @@ package be.kdg.rummikub.view.spel;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
+import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 
 public class SpelView extends BorderPane {
-    private HBox hbxEigenStenen;
+    private GridPane gdpEigenStenen;
     private GridPane gdpSpelbord;
     private MenuItem exitMI;
     private MenuItem infoMI;
     private MenuItem overOnsMI;
     private MenuItem statistiekenMI;
     private Button btnVraagExtraSteen;
+    private Button btnEindeBeurt;
+    private int veldRijen = 11;
+    private int veldKolommen = 29;
+    private final int eigenRijen = 2;
+    private final int eigenKolommen = 24;
 
     public SpelView() {
         this.initialiseNodes();
@@ -24,8 +30,10 @@ public class SpelView extends BorderPane {
     }
 
     private void initialiseNodes() {
-        hbxEigenStenen = new HBox();
+        gdpEigenStenen = new GridPane();
         this.btnVraagExtraSteen = new Button("Extra steen");
+        this.btnEindeBeurt = new Button("Einde beurt");
+        gdpSpelbord = new GridPane();
         this.exitMI = new MenuItem("Exit");
         this.infoMI = new MenuItem("Info");
         this.overOnsMI = new MenuItem("Over ons");
@@ -33,20 +41,49 @@ public class SpelView extends BorderPane {
     }
 
     private void layoutNodes() {
-        this.setBottom(hbxEigenStenen);
-        hbxEigenStenen.setAlignment(Pos.CENTER);
-        btnVraagExtraSteen.setPadding(new Insets(20));
+        for (int i = 0; i < eigenRijen; i++) {
+            for (int j = 0; j < eigenKolommen; j++) {
+                AfbeeldingSteen afbeeldingSteen = new AfbeeldingSteen("/fotos/TransparantImage.png", j, i);
+                afbeeldingSteen.setFitHeight(75);
+                afbeeldingSteen.setFitWidth(50);
+                afbeeldingSteen.setPickOnBounds(true);
+                gdpEigenStenen.add(afbeeldingSteen,j,i);
+                gdpEigenStenen.setGridLinesVisible(true);
+            }
+        }
+        gdpEigenStenen.setAlignment(Pos.CENTER);
+        setBottom(gdpEigenStenen);
+        Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+        System.out.println(screenBounds.getWidth());
 
-        hbxEigenStenen.getChildren().add(btnVraagExtraSteen);
+        veldRijen = (int) Math.floor((screenBounds.getHeight() - 200) / 75 );
+        veldKolommen = (int) Math.floor((screenBounds.getWidth() - 150) / 50);
 
-        Menu menuFile = new Menu("File", null, statistiekenMI, new SeparatorMenuItem(), new javafx.scene.control.SeparatorMenuItem(), exitMI);
+        for (int i = 0; i < veldRijen; i++) {
+            for (int j = 0; j < veldKolommen; j++) {
+                AfbeeldingSteen afbeeldingSteen = new AfbeeldingSteen("/fotos/TransparantImage.png", j, i);
+                afbeeldingSteen.setFitHeight(75);
+                afbeeldingSteen.setFitWidth(50);
+                afbeeldingSteen.setPickOnBounds(true);
+                gdpSpelbord.add(afbeeldingSteen, j, i);
+                gdpSpelbord.setGridLinesVisible(true);
+            }
+        }
+        this.setCenter(gdpSpelbord);
+
+        Menu menuFile = new Menu("File", null, statistiekenMI, new SeparatorMenuItem(), new SeparatorMenuItem(), exitMI);
         Menu menuHelp = new Menu("Help", null, overOnsMI, infoMI);
         MenuBar menuBar = new MenuBar(menuFile, menuHelp);
         setTop(menuBar);
+        btnVraagExtraSteen.setPadding(new Insets(10));
+        VBox vBox = new VBox();
+        vBox.setAlignment(Pos.CENTER);
+        vBox.getChildren().addAll(btnVraagExtraSteen,btnEindeBeurt);
+        setRight(vBox);
     }
 
-    HBox getHbxEigenStenen() {
-        return hbxEigenStenen;
+    public GridPane getGdpEigenStenen() {
+        return gdpEigenStenen;
     }
 
     GridPane getGdpSpelbord() {
@@ -63,5 +100,17 @@ public class SpelView extends BorderPane {
 
     public Button getBtnVraagExtraSteen() {
         return btnVraagExtraSteen;
+    }
+
+    public int getVeldKolommen() {
+        return veldKolommen;
+    }
+
+    public int getEigenKolommen() {
+        return eigenKolommen;
+    }
+
+    public Button getBtnEindeBeurt() {
+        return btnEindeBeurt;
     }
 }

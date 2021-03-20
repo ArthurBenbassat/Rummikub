@@ -2,6 +2,7 @@ package be.kdg.rummikub.model.deelnemer;
 
 import be.kdg.rummikub.model.Rij;
 import be.kdg.rummikub.model.steen.Steen;
+import be.kdg.rummikub.view.spel.AfbeeldingSteen;
 
 import java.util.*;
 
@@ -33,7 +34,7 @@ public class Deelnemer {
         return false;
     }
 
-    public void speelZet(Rij rij) {
+    public void speelZet(AfbeeldingSteen steen) {
 
     }
 

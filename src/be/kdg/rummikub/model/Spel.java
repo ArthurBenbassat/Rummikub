@@ -1,6 +1,8 @@
 package be.kdg.rummikub.model;
 
+import be.kdg.rummikub.model.deelnemer.Computer;
 import be.kdg.rummikub.model.deelnemer.Deelnemer;
+import be.kdg.rummikub.model.deelnemer.MakkelijkeComputer;
 import be.kdg.rummikub.model.deelnemer.Speler;
 import be.kdg.rummikub.model.steen.Kleur;
 import be.kdg.rummikub.model.steen.Pot;
@@ -14,9 +16,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Formatter;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Spel {
     private int beurt;
@@ -36,9 +36,11 @@ public class Spel {
         pot = new Pot();
 
         spelers = new Deelnemer[spelersAantal];
-        for (int i = 0; i<spelersAantal; i++){
-            spelers[i] = new Speler("speler "+ i);
+        for (int i = 1; i < spelersAantal; i++){
+            spelers[i] = new MakkelijkeComputer();
         }
+        spelers[0] = new Speler("Speler");
+
 
         startSpel();
     }
@@ -117,7 +119,20 @@ public class Spel {
     public void volgendeSpeler(){
         beurt++;
         if (beurt == spelers.length){
+
             beurt = 0;
+        }
+        if (beurt != 0) {
+            if (spelers[beurt] instanceof Computer) {
+                ((Computer) spelers[beurt]).berekenZet();
+                for (List<Steen> zetten: ((Computer) spelers[beurt]).getZettenHand()) {
+                    for (int i = 0; i < zetten.size(); i++) {
+                        //spelbord.plaatsSteen(zetten.get(i), i,);
+                    }
+
+                }
+            }
+
         }
     }
 

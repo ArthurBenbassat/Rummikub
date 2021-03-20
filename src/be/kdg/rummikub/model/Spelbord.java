@@ -13,24 +13,31 @@ public class Spelbord {
     }
 
 
-    public String controleerRij(Rij rij) {
-        if (getRijen().get(rijen.indexOf(rij)).controleRij()) {
-            return "De rij is goed gekeurd";
-        } else {
-            return "De rij is (nog) niet goed gekeurd";
-        }
-    }
-
     public boolean checkEersteZet() {
         return false;
     }
 
     public void addRij(Steen steen) {
-        rijen.add(new Rij(steen));
+        rijen.add(new Rij(steen, 0));
     }
 
     public ArrayList<Rij> getRijen() {
         return rijen;
+    }
+
+    public void plaatsSteen(int locatieX, int locatieY, Steen steen) {
+
+        for (Rij rij : getRijen()) {
+            if (rij.getLocatieY() == locatieY) {
+                if (rij.getMaxLocatie() == locatieX - 1 || rij.getMinLocatie() == locatieX + 1) {
+
+                } else if (rij.getMinLocatie() >= locatieX && rij.getMaxLocatie() <= locatieX) {
+                    //TODO rijen plaatsen en opschuiven
+                    addRij(steen);
+                }
+            }
+
+        }
     }
 
     @Override

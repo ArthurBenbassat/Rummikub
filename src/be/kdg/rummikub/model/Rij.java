@@ -7,11 +7,15 @@ import java.util.*;
 public class Rij {
     private boolean rijColorType;
     private ArrayList<Steen> steenInRij;
+    private int minLocatie;
+    private int maxLocatie;
+    private int locatieY;
 
     //TODO minstens 3 stenen meegeven om rij te maken
-    public Rij(Steen steen) {
+    public Rij(Steen steen, int locatieY) {
         steenInRij = new ArrayList<>();
         addSteen(steen);
+        this.locatieY = locatieY;
     }
 
     public void addSteen(Steen steen) {
@@ -59,6 +63,18 @@ public class Rij {
             uitkomst += steen + " ";
         }
         return uitkomst;
+    }
+
+    public int getMinLocatie() {
+        return minLocatie;
+    }
+
+    public int getMaxLocatie() {
+        return maxLocatie;
+    }
+
+    public int getLocatieY() {
+        return locatieY;
     }
 }
 

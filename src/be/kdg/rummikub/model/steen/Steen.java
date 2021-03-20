@@ -1,5 +1,7 @@
 package be.kdg.rummikub.model.steen;
 
+import be.kdg.rummikub.view.spel.AfbeeldingSteen;
+
 public class Steen {
     private Kleur kleur;
     private int waarde;

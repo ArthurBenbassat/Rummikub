@@ -57,10 +57,10 @@ public class ConsoleMain {
                             int plaatsKeuze = keyboard.nextInt();
 
                             spel.getSpelbord().getRijen().get(rijKeuze).addSteen(steenKeuze, plaatsKeuze);
-                            System.out.println(spel.getSpelbord().controleerRij(spel.getSpelbord().getRijen().get(rijKeuze)));
+                            //System.out.println(spel.getSpelbord().controleerRij(spel.getSpelbord().getRijen().get(rijKeuze)));
 
                         } else {
-                            spel.getSpelbord().getRijen().add(new Rij(steenKeuze));
+                            spel.getSpelbord().getRijen().add(new Rij(steenKeuze, 1));
                             System.out.println("De steen is toegevoegd");
                         }
                         spel.getSpelers()[spel.getBeurt()].getStenen().remove(steenKeuze);
