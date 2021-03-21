@@ -54,21 +54,24 @@ public class SpelView extends BorderPane {
         gdpEigenStenen.setAlignment(Pos.CENTER);
         setBottom(gdpEigenStenen);
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
-        System.out.println(screenBounds.getWidth());
 
         veldRijen = (int) Math.floor((screenBounds.getHeight() - 200) / 75 );
         veldKolommen = (int) Math.floor((screenBounds.getWidth() - 150) / 50);
 
         for (int i = 0; i < veldRijen; i++) {
             for (int j = 0; j < veldKolommen; j++) {
-                AfbeeldingSteen afbeeldingSteen = new AfbeeldingSteen("/fotos/TransparantImage.png", j, i);
+                AfbeeldingSteen afbeeldingSteen = new AfbeeldingSteen("/fotos/wit.png", j, i);
                 afbeeldingSteen.setFitHeight(75);
                 afbeeldingSteen.setFitWidth(50);
                 afbeeldingSteen.setPickOnBounds(true);
                 gdpSpelbord.add(afbeeldingSteen, j, i);
-                gdpSpelbord.setGridLinesVisible(true);
+
+
             }
         }
+
+
+
         this.setCenter(gdpSpelbord);
 
         Menu menuFile = new Menu("File", null, statistiekenMI, new SeparatorMenuItem(), new SeparatorMenuItem(), exitMI);
@@ -105,6 +108,8 @@ public class SpelView extends BorderPane {
     public int getVeldKolommen() {
         return veldKolommen;
     }
+
+    public int getVeldRijen() { return veldRijen; }
 
     public int getEigenKolommen() {
         return eigenKolommen;

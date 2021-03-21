@@ -76,6 +76,14 @@ public class Rij {
     public int getLocatieY() {
         return locatieY;
     }
+
+    public void setMaxLocatie(int maxLocatie) {
+        this.maxLocatie = maxLocatie;
+    }
+
+    public void setMinLocatie(int minLocatie) {
+        this.minLocatie = minLocatie;
+    }
 }
 
 

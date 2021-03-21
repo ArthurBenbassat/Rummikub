@@ -1,6 +1,6 @@
 package be.kdg.rummikub.model.steen;
 
-import be.kdg.rummikub.view.spel.AfbeeldingSteen;
+
 
 public class Steen {
     private Kleur kleur;
@@ -10,6 +10,30 @@ public class Steen {
     public Steen(Kleur kleur, int waarde) {
         this.kleur = kleur;
         this.waarde = waarde;
+        this.setPad();
+    }
+
+    public Steen(String url) {
+
+        if (url.contains("B")) {
+            this.kleur = Kleur.BLAUW;
+        } else if (url.contains("R")) {
+            this.kleur = Kleur.ROOD;
+        } else if (url.contains("G")) {
+            this.kleur = Kleur.GEEL;
+        } else if ((url.contains("Z"))) {
+            this.kleur = Kleur.ZWART;
+        } else {
+            System.out.println("error1");
+        }
+        try {
+            System.out.println(url.substring(1));
+            this.waarde = Integer.getInteger(url.substring(1));
+
+        } catch (RuntimeException e) {
+            System.out.println("error");
+        }
+
         this.setPad();
     }
 

@@ -14,6 +14,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -27,6 +28,8 @@ public class SpelPresenter {
     public SpelPresenter(Spel model, SpelView view) {
         this.model = model;
         this.view = view;
+
+        model.getSpelbord().updateSpeelveld(view.getVeldKolommen(), view.getVeldRijen());
 
         this.updateView();
         this.addEventHandlers();
@@ -52,28 +55,53 @@ public class SpelPresenter {
                     String id = spelerAfbeelding.getId();
                     verplaatsing = model.getSpelers()[0].getStenen().get(Integer.parseInt(id));
                     model.getSpelers()[0].getStenen().remove(Integer.parseInt(id));
-
-                    //spelerAfbeelding.setId("selectedStone");
+                    spelerAfbeelding.setId("");
                     updateView();
                 }
             }
         });
 
         view.getGdpSpelbord().setOnMouseClicked(mouseEvent -> {
-            veldAfbeelding = (AfbeeldingSteen) mouseEvent.getPickResult().getIntersectedNode();
+
             if  (verplaatsing != null){
-                model.getSpelbord().plaatsSteen(veldAfbeelding.getXGrid(), veldAfbeelding.getYGrid(), verplaatsing);
-                verplaatsing = null;
+                veldAfbeelding = (AfbeeldingSteen) mouseEvent.getPickResult().getIntersectedNode();
+
+                try {
+                    model.getSpelbord().plaatsSteen(veldAfbeelding.getXGrid(), veldAfbeelding.getYGrid(), verplaatsing);
+                    verplaatsing = null;
+                    veldAfbeelding.setId("1,1");
+
+                    //this.updateGridSpelBord();
+                    view.getGdpSpelbord().add(updateSpelBord(veldAfbeelding), veldAfbeelding.getXGrid(), veldAfbeelding.getYGrid());
+
+                    view.setCursor(Cursor.DEFAULT);
+                    spelerAfbeelding = null;
+                    //veldAfbeelding = null;
+               } catch (RuntimeException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.showAndWait();
+                }
+
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.showAndWait();
+                veldAfbeelding = (AfbeeldingSteen) mouseEvent.getPickResult().getIntersectedNode();
+                if (veldAfbeelding != null) {
+                    model.getSpelbord().verwijderSteen(veldAfbeelding.getXGrid(),veldAfbeelding.getYGrid());
+                    this.updateGridSpelBord();
+                    //view.getGdpSpelbord().add(updateTransparteSteen(veldAfbeelding), veldAfbeelding.getXGrid(),veldAfbeelding.getYGrid());
+
+                    view.setCursor(new ImageCursor(new Image("/fotos/stenen/" + veldAfbeelding.getUrl() + ".png")));
+
+                    verplaatsing = new Steen(veldAfbeelding.getUrl());
+
+                    spelerAfbeelding = veldAfbeelding;
+
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+
+                    alert.showAndWait();
+                }
+
             }
-
-            view.getGdpSpelbord().add(updateSpelBord(veldAfbeelding), veldAfbeelding.getXGrid(), veldAfbeelding.getYGrid());
-            view.setCursor(Cursor.DEFAULT);
-            spelerAfbeelding = null;
-            veldAfbeelding = null;
-
         });
 
         view.getBtnEindeBeurt().setOnMouseClicked(mouseEvent -> {
@@ -94,8 +122,26 @@ public class SpelPresenter {
         } else {
             return null;
         }
+    }
 
+    private void updateGridSpelBord() {
+        for (int i = 0; i < model.getSpelbord().getSpeelVeld().length; i++) {
+            for (int j = 0; j < model.getSpelbord().getSpeelVeld()[i].length; j++) {
+                if (model.getSpelbord().getSpeelVeld()[i][j] == null) {
+                    AfbeeldingSteen afbeeldingSteen = new AfbeeldingSteen("/fotos/wit.png", i, j);
+                    afbeeldingSteen.setFitHeight(75);
+                    afbeeldingSteen.setFitWidth(50);
+                    view.getGdpSpelbord().add(afbeeldingSteen, i, j);
+                } else {
+                    AfbeeldingSteen afbeeldingSteen = new AfbeeldingSteen(model.getSpelbord().getSpeelVeld()[i][j].getPad(), i, j);
+                    afbeeldingSteen.setFitHeight(75);
+                    afbeeldingSteen.setFitWidth(50);
+                    view.getGdpSpelbord().add(afbeeldingSteen, i, j);
+                }
 
+            }
+
+        }
     }
 
     private void updateSteenHouder() {
