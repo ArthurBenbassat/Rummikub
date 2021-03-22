@@ -36,10 +36,10 @@ public class Rij {
         if (steenInRij.size() >= 3) {
             for (int i = 0; i < steenInRij.size(); i++) {
                 if (i != 0) {
-                    if (steenInRij.get(i).getKleur() == steenInRij.get(i - 1).getKleur() && steenInRij.get(i).getWaarde() == (steenInRij.get(i - 1).getWaarde() + 1)) {
+                    if( (steenInRij.get(i).getKleur() == steenInRij.get(i - 1).getKleur() && steenInRij.get(i).getWaarde() == (steenInRij.get(i - 1).getWaarde() + 1)) || (steenInRij.get(i).getWaarde() == 0) || steenInRij.get(i - 1).getWaarde() == 0) {
                         controle = true;
                         rijColorType = true;
-                    } else if (steenInRij.get(i).getWaarde() == getSteenInRij().get(i - 1).getWaarde() && steenInRij.get(i).getKleur() != steenInRij.get(i - 1).getKleur()) {
+                    } else if ((steenInRij.get(i).getWaarde() == getSteenInRij().get(i - 1).getWaarde() && steenInRij.get(i).getKleur() != steenInRij.get(i - 1).getKleur()  || (steenInRij.get(i).getWaarde() == 0) || steenInRij.get(i - 1).getWaarde() == 0)) {
                         controle = true;
                         rijColorType = false;
                     } else {

@@ -105,7 +105,6 @@ public class Spel {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-
     }
 
 
@@ -119,20 +118,21 @@ public class Spel {
     public void volgendeSpeler(){
         beurt++;
         if (beurt == spelers.length){
-
             beurt = 0;
         }
         if (beurt != 0) {
-            if (spelers[beurt] instanceof Computer) {
-                ((Computer) spelers[beurt]).berekenZet();
-                for (List<Steen> zetten: ((Computer) spelers[beurt]).getZettenHand()) {
+            if (spelers[beurt] instanceof MakkelijkeComputer) {
+                ((MakkelijkeComputer) spelers[beurt]).berekenZet();
+                System.out.println("aantal opties" + ((MakkelijkeComputer) spelers[beurt]).getZettenHand().size());
+                for (List<Steen> zetten: ((MakkelijkeComputer) spelers[beurt]).getZettenHand()) {
+                    System.out.println("Rij" + zetten);
                     for (int i = 0; i < zetten.size(); i++) {
-                        //spelbord.plaatsSteen(zetten.get(i), i,);
+                        //System.out.println(zetten.get(i));
                     }
 
                 }
             }
-
+            this.volgendeSpeler();
         }
     }
 

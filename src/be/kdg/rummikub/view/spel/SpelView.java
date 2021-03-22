@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 
 public class SpelView extends BorderPane {
@@ -51,6 +52,7 @@ public class SpelView extends BorderPane {
                 gdpEigenStenen.setGridLinesVisible(true);
             }
         }
+        gdpEigenStenen.setStyle("-fx-background-color: #654321 ;");
         gdpEigenStenen.setAlignment(Pos.CENTER);
         setBottom(gdpEigenStenen);
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
@@ -65,10 +67,9 @@ public class SpelView extends BorderPane {
                 afbeeldingSteen.setFitWidth(50);
                 afbeeldingSteen.setPickOnBounds(true);
                 gdpSpelbord.add(afbeeldingSteen, j, i);
-
-
             }
         }
+        gdpSpelbord.setStyle("-fx-background-color: #d69a57");
 
 
 
@@ -78,11 +79,16 @@ public class SpelView extends BorderPane {
         Menu menuHelp = new Menu("Help", null, overOnsMI, infoMI);
         MenuBar menuBar = new MenuBar(menuFile, menuHelp);
         setTop(menuBar);
-        btnVraagExtraSteen.setPadding(new Insets(10));
+
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
+        btnVraagExtraSteen.setStyle("-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-radius: 30; -fx-background-insets: 0; -fx-text-fill: white;");
+        btnEindeBeurt.setStyle("-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-radius: 30;-fx-background-insets: 0;-fx-text-fill: white;");
+
         vBox.getChildren().addAll(btnVraagExtraSteen,btnEindeBeurt);
+        vBox.setStyle("-fx-background-color: #d69a57");
         setRight(vBox);
+
     }
 
     public GridPane getGdpEigenStenen() {

@@ -2,12 +2,18 @@ package be.kdg.rummikub;
 
 import be.kdg.rummikub.model.Rij;
 import be.kdg.rummikub.model.Spel;
+import be.kdg.rummikub.model.Statistieken;
 import be.kdg.rummikub.model.steen.Steen;
 
 import java.util.Scanner;
 
 public class ConsoleMain {
     public static void main(String[] args) {
+        Statistieken stats = new Statistieken();
+        stats.setStatistieken(2);
+        System.exit(0);
+
+
         Spel spel = new Spel(2);
         Scanner keyboard = new Scanner(System.in);
 

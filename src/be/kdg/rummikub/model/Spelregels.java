@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class Spelregels {
-    public String getSpelregels() {
+    public static String getSpelregels() {
         StringBuilder tekst = new StringBuilder();
         Path bestand = Paths.get( "resources/jsonBestanden/spelregels.json");
 
@@ -33,12 +33,12 @@ public class Spelregels {
         return jsonObj.getInt("tijdslimietInSeconden");
     }
 
-    public int getMinimunAantalPuntenEersteZet() {
+    public static int getMinimunAantalPuntenEersteZet() {
         JSONObject jsonObj = new JSONObject(getSpelregels());
         return jsonObj.getInt("aantalPuntenMinimaalEersteZet");
     }
 
-    public int getstartAantalSteentejes() {
+    public static int getstartAantalSteentejes() {
         JSONObject jsonObj = new JSONObject(getSpelregels());
         return jsonObj.getInt("startAantalSteentjes");
     }

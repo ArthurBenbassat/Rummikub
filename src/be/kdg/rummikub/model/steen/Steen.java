@@ -27,11 +27,10 @@ public class Steen {
             System.out.println("error1");
         }
         try {
-            System.out.println(url.substring(1));
-            this.waarde = Integer.getInteger(url.substring(1));
+            this.waarde = Integer.parseInt(url.substring(1));
 
         } catch (RuntimeException e) {
-            System.out.println("error");
+            System.out.println("error: int niet gevonden\nint: " + waarde);
         }
 
         this.setPad();

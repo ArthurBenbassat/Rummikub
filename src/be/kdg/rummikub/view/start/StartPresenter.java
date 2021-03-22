@@ -7,6 +7,8 @@ import be.kdg.rummikub.view.spel.SpelPresenter;
 import be.kdg.rummikub.view.spel.SpelView;
 import be.kdg.rummikub.view.spelregels.SpelregelsPresenter;
 import be.kdg.rummikub.view.spelregels.SpelregelsView;
+import be.kdg.rummikub.view.statistieken.StatsPresenter;
+import be.kdg.rummikub.view.statistieken.StatsView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -55,6 +57,26 @@ public class StartPresenter {
             infoStage.setTitle("Info - Rummikub");
             infoStage.getIcons().add(new Image("/fotos/logo.png"));
             infoStage.showAndWait();
+        });
+
+        view.getStatistiekenMI().setOnAction(actionEvent -> {
+            StatsView statsView = new StatsView();
+            new StatsPresenter(model, statsView);
+
+            Stage statsStage = new Stage();
+            statsStage.initOwner(view.getScene().getWindow());
+            statsStage.initModality(Modality.APPLICATION_MODAL);
+
+            statsStage.setScene(new Scene(statsView));
+
+            statsStage.setX(view.getScene().getWindow().getX()+100);
+            statsStage.setY(view.getScene().getWindow().getY()+100);
+
+            statsStage.getScene().getWindow().setHeight(600);
+            statsStage.getScene().getWindow().setWidth(600);
+            statsStage.setTitle("Statistieken - Rummikub");
+            statsStage.getIcons().add(new Image("/fotos/logo.png"));
+            statsStage.showAndWait();
         });
 
         view.getBtnStart().setOnAction(new EventHandler<ActionEvent>() {

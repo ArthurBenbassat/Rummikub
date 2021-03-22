@@ -1,5 +1,6 @@
 package be.kdg.rummikub.model.deelnemer;
 
+import be.kdg.rummikub.model.Spelregels;
 import be.kdg.rummikub.model.steen.Steen;
 
 import java.util.ArrayList;
@@ -23,9 +24,6 @@ public abstract class Computer extends Deelnemer {
         return niveau;
     }
 
-    public int bedenkZet() {
-        return 0;
-    }
 
     public List<List<Steen>> getZettenHand() {
         return zettenHand;
@@ -62,9 +60,11 @@ public abstract class Computer extends Deelnemer {
                         }
                     }
                 }
-                if (speelbaar.size() >= 3) {
+                System.out.println(Spelregels.getstartAantalSteentejes());
+                if (speelbaar.size() >= Spelregels.getstartAantalSteentejes()) {
                     System.out.println(speelbaar);
                     zettenHand.add(speelbaar);
+                    System.out.println(zettenHand.size());
                     i = normaleI;
 
                 }

@@ -32,7 +32,6 @@ public class SpelregelsPresenter {
         });
     }
     private void updateView() {
-        Spelregels spelregels = new Spelregels();
-        view.changeRegels(spelregels.getSpelregels());
+        view.changeRegels(Spelregels.getSpelregels());
     }
 }

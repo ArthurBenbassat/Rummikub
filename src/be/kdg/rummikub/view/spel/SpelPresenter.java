@@ -1,22 +1,15 @@
 package be.kdg.rummikub.view.spel;
 
-import be.kdg.rummikub.model.Rij;
 import be.kdg.rummikub.model.Spel;
-import be.kdg.rummikub.model.steen.Kleur;
 import be.kdg.rummikub.model.steen.Steen;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
+
+
+import java.io.IOException;
 
 public class SpelPresenter {
     private final Spel model;
@@ -30,89 +23,147 @@ public class SpelPresenter {
         this.view = view;
 
         model.getSpelbord().updateSpeelveld(view.getVeldKolommen(), view.getVeldRijen());
-
+        try {
+            model.zetAllesInJson();
+        } catch (IOException e) {
+            this.setAlert("Fout met json bestand");
+        }
         this.updateView();
         this.addEventHandlers();
     }
 
     private void addEventHandlers() {
         view.getBtnVraagExtraSteen().setOnMouseClicked(mouseEvent -> {
-            model.volgendeSpeler();
             Steen extraSteen = model.getPot().getRandomSteen();
             model.getSpelers()[0].addSteen(extraSteen);
             model.getPot().getStenen().remove(extraSteen);
+            model.getSpelers()[0].verhoogZet();
+            try {
+                model.zetAllesInJson();
+            } catch (IOException e) {
+                this.setAlert("Fout bij het restoren");
+            }
             this.updateView();
+            model.volgendeSpeler();
         });
 
         view.getGdpEigenStenen().setOnMouseClicked(mouseEvent -> {
-            spelerAfbeelding = null;
-            if (mouseEvent.getPickResult().getIntersectedNode() instanceof AfbeeldingSteen) {
-                spelerAfbeelding = (AfbeeldingSteen) mouseEvent.getPickResult().getIntersectedNode();
-                if (!(spelerAfbeelding.getUrl().contains("B") || spelerAfbeelding.getUrl().contains("G") || spelerAfbeelding.getUrl().contains("R") || spelerAfbeelding.getUrl().contains("Z"))) {
-                    spelerAfbeelding = null;
-                } else {
-                    view.setCursor(new ImageCursor(new Image("/fotos/stenen/" + spelerAfbeelding.getUrl() + ".png")));
-                    String id = spelerAfbeelding.getId();
-                    verplaatsing = model.getSpelers()[0].getStenen().get(Integer.parseInt(id));
-                    model.getSpelers()[0].getStenen().remove(Integer.parseInt(id));
-                    spelerAfbeelding.setId("");
-                    updateView();
+            if (verplaatsing == null) {
+                spelerAfbeelding = null;
+                if (mouseEvent.getPickResult().getIntersectedNode() instanceof AfbeeldingSteen) {
+                    spelerAfbeelding = (AfbeeldingSteen) mouseEvent.getPickResult().getIntersectedNode();
+                    if (!(spelerAfbeelding.getUrl().contains("B") || spelerAfbeelding.getUrl().contains("G") || spelerAfbeelding.getUrl().contains("R") || spelerAfbeelding.getUrl().contains("Z"))) {
+                        spelerAfbeelding = null;
+                    } else {
+                        view.setCursor(new ImageCursor(new Image("/fotos/stenen/" + spelerAfbeelding.getUrl() + ".png")));
+                        String id = spelerAfbeelding.getId();
+                        verplaatsing = model.getSpelers()[0].getStenen().get(Integer.parseInt(id));
+                        model.getSpelers()[0].getStenen().remove(Integer.parseInt(id));
+                        spelerAfbeelding.setId("");
+                        updateView();
+                    }
+                }
+            } else {
+                if (mouseEvent.getPickResult().getIntersectedNode() != null) {
+                    try {
+                        model.getSpelers()[0].addSteen(verplaatsing);
+                        verplaatsing = null;
+
+                        updateView();
+
+                        view.setCursor(Cursor.DEFAULT);
+                        spelerAfbeelding = null;
+                    } catch (RuntimeException e) {
+                        this.setAlert(e.getMessage());
+                    }
                 }
             }
+
         });
 
         view.getGdpSpelbord().setOnMouseClicked(mouseEvent -> {
 
             if  (verplaatsing != null){
-                veldAfbeelding = (AfbeeldingSteen) mouseEvent.getPickResult().getIntersectedNode();
+                if (mouseEvent.getPickResult().getIntersectedNode() != null) {
+                    veldAfbeelding = (AfbeeldingSteen) mouseEvent.getPickResult().getIntersectedNode();
 
-                try {
-                    model.getSpelbord().plaatsSteen(veldAfbeelding.getXGrid(), veldAfbeelding.getYGrid(), verplaatsing);
-                    verplaatsing = null;
-                    veldAfbeelding.setId("1,1");
+                    try {
+                        model.getSpelbord().plaatsSteen(veldAfbeelding.getXGrid(), veldAfbeelding.getYGrid(), verplaatsing);
+                        verplaatsing = null;
+                        veldAfbeelding.setId("1,1");
 
-                    //this.updateGridSpelBord();
-                    view.getGdpSpelbord().add(updateSpelBord(veldAfbeelding), veldAfbeelding.getXGrid(), veldAfbeelding.getYGrid());
+                        //this.updateGridSpelBord();
+                        view.getGdpSpelbord().add(updateSpelBord(veldAfbeelding), veldAfbeelding.getXGrid(), veldAfbeelding.getYGrid());
 
-                    view.setCursor(Cursor.DEFAULT);
-                    spelerAfbeelding = null;
-                    //veldAfbeelding = null;
-               } catch (RuntimeException e) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.showAndWait();
+                        view.setCursor(Cursor.DEFAULT);
+                        spelerAfbeelding = null;
+                        //veldAfbeelding = null;
+                    } catch (RuntimeException e) {
+                        this.setAlert(e.getMessage());
+                    }
                 }
 
             } else {
-                veldAfbeelding = (AfbeeldingSteen) mouseEvent.getPickResult().getIntersectedNode();
+
                 if (veldAfbeelding != null) {
-                    model.getSpelbord().verwijderSteen(veldAfbeelding.getXGrid(),veldAfbeelding.getYGrid());
-                    this.updateGridSpelBord();
-                    //view.getGdpSpelbord().add(updateTransparteSteen(veldAfbeelding), veldAfbeelding.getXGrid(),veldAfbeelding.getYGrid());
+                    if (mouseEvent.getPickResult().getIntersectedNode() != null) {
+                        veldAfbeelding = (AfbeeldingSteen) mouseEvent.getPickResult().getIntersectedNode();
+                        if (veldAfbeelding.getUrl() == null || veldAfbeelding.getUrl().contains("wi")) {
+                            System.out.println("witte afbeelding");
+                        } else {
+                            model.getSpelbord().verwijderSteen(veldAfbeelding.getXGrid(),veldAfbeelding.getYGrid());
+                            this.updateGridSpelBord();
 
-                    view.setCursor(new ImageCursor(new Image("/fotos/stenen/" + veldAfbeelding.getUrl() + ".png")));
+                            view.setCursor(new ImageCursor(new Image("/fotos/stenen/" + veldAfbeelding.getUrl() + ".png")));
 
-                    verplaatsing = new Steen(veldAfbeelding.getUrl());
+                            verplaatsing = new Steen(veldAfbeelding.getUrl());
 
-                    spelerAfbeelding = veldAfbeelding;
-
+                            spelerAfbeelding = veldAfbeelding;
+                        }
+                    }
                 } else {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-
-                    alert.showAndWait();
+                    setAlert("Dit is geen steen");
                 }
 
             }
         });
 
         view.getBtnEindeBeurt().setOnMouseClicked(mouseEvent -> {
-            //TODO logica met alle checks
+           if (model.getSpelbord().checkSpeelveld()) {
+               model.volgendeSpeler();
+               model.getSpelers()[0].verhoogZet();
+               try {
+                   model.zetAllesInJson();
+               } catch (IOException e) {
+                   this.setAlert("Fout bij het restoren");
+               }
+           } else {
+               Alert alert = new Alert(Alert.AlertType.ERROR, "Er zit een fout in.\nWil alles terug zetten?", ButtonType.YES, ButtonType.NO);
+               alert.showAndWait().ifPresent(buttonType -> {
+                   if (buttonType == ButtonType.YES) {
+                       try {
+                           model.zetAllesTerug();
+                           this.updateGridSpelBord();
+                           this.updateView();
+                       } catch (IOException e) {
+                           this.setAlert("Fout bij het restoren");
+                       }
+                   }
+               });
+           }
         });
 
 
 
     }
 
-    //ToDo
+    private void setAlert(String bericht) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, bericht);
+
+        alert.showAndWait();
+    }
+
+
     private AfbeeldingSteen updateSpelBord(AfbeeldingSteen steenAfbeelding) {
         if (steenAfbeelding != null) {
             AfbeeldingSteen steen = new AfbeeldingSteen("/fotos/stenen/" + spelerAfbeelding.getUrl() + ".png", steenAfbeelding.getXGrid(), steenAfbeelding.getYGrid());

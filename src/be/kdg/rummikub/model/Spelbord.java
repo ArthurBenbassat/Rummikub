@@ -8,10 +8,14 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Spelbord {
-    private ArrayList<Rij> rijen;
+    private List<Rij> rijen;
     private Steen speelVeld[][];
     public Spelbord(){
         rijen = new ArrayList<>();
+    }
+    public Spelbord(List<Rij> rijen, Steen speelVeld[][]) {
+        this.rijen = rijen;
+        this.speelVeld = speelVeld;
     }
 
 
@@ -24,70 +28,20 @@ public class Spelbord {
         return rijen.get(rijen.size() - 1);
     }
 
-    public ArrayList<Rij> getRijen() {
+    public List<Rij> getRijen() {
         return rijen;
     }
 
     public void updateSpeelveld(int x, int y) {
         speelVeld = new Steen[x][y];
     }
+
     public void plaatsSteen(int locatieX, int locatieY, Steen steen) {
-
-        if (rijen.size() == 0 ) {
-            Rij nieuweRij = addRij(steen, locatieY);
-            nieuweRij.setMaxLocatie(locatieX - 1);
-            nieuweRij.setMinLocatie(locatieX + 1);
-
-        } else {
-            boolean nieuweRij = true;
-
-            int plaats;
-            int rijNr;
-            for (int i= 0; i < rijen.size(); i++) {
-                System.out.println(i + rijen.get(i).getMaxLocatie());
-                if (rijen.get(i).getLocatieY() == locatieY) {
-                    if (rijen.get(i).getMinLocatie() >= locatieX && rijen.get(i).getMaxLocatie() <= locatieX) {
-                        nieuweRij = false;
-                        System.out.println("tges");
-                    } else if (rijen.get(i).getMaxLocatie() == locatieX - 1 || rijen.get(i).getMinLocatie() == locatieX + 1) {
-                        System.out.println("test");
-                        rijNr = i;
-                        nieuweRij = false;
-
-
-                    }
-                }
-            }
-            if (nieuweRij) {
-                Rij nieuw = addRij(steen, locatieY);
-                nieuw.setMaxLocatie(locatieX);
-                nieuw.setMinLocatie(locatieX);
-
-            } else {
-                //rijen.get(plaats).addSteen();
-
-            }
-            speelVeld[locatieX][locatieY] = steen;
+        if (speelVeld[locatieX][locatieY] != null) {
+            throw new RuntimeException("Er staat al een steen");
         }
-            //for (Rij rij : rijen) {
 
-            /*
-            if (rij.getLocatieY() == locatieY) {
-                if (rij.getMaxLocatie() == locatieX - 1 || rij.getMinLocatie() == locatieX + 1) {
-                    rij.addSteen(steen);
-                } else if (rij.getMinLocatie() >= locatieX && rij.getMaxLocatie() <= locatieX) {
-                    //TODO rijen plaatsen en opschuiven
-                    Rij nieuweRij = addRij(steen, locatieY);
-                    nieuweRij.setMaxLocatie(locatieX - 1);
-                    nieuweRij.setMinLocatie(locatieX + 1);
-                }
-            } else {
-                Rij nieuweRij = addRij(steen, locatieY);
-                nieuweRij.setMaxLocatie(locatieX - 1);
-                nieuweRij.setMinLocatie(locatieX + 1);            }*/
-        //}
-
-        System.out.println(rijen.size());
+        speelVeld[locatieX][locatieY] = steen;
     }
 
     private int getPlaats(Rij rij, Steen steen, int locatieX) {
@@ -96,6 +50,10 @@ public class Spelbord {
 
         }
         return 0;
+    }
+
+    private void schuifSpeelveldOp(Steen steen) {
+
     }
 
     public Steen[][] getSpeelVeld() {
@@ -116,5 +74,41 @@ public class Spelbord {
 
     public void verwijderSteen(int locatieX, int locatieY) {
         speelVeld[locatieX][locatieY] = null;
+    }
+
+    public boolean checkSpeelveld() {
+        System.out.println("test1");
+        boolean goedKeuring = true;
+        rijen.clear();
+        for (int i = 0; i < speelVeld.length; i++) {
+            for (int j = 0; j < speelVeld[i].length; j++) {
+                if (speelVeld[i][j] != null) {
+                    Rij rijIndex = this.addRij(speelVeld[i][j], i);
+                    boolean extraSteenBijRij =false;
+                    int x=i;
+                    int aantalStenen = 0;
+                    do {
+                 x++;       
+                 if (speelVeld[x][j] == null) {
+                            extraSteenBijRij = true;
+                       } else {
+                            aantalStenen++;
+                            rijIndex.addSteen(speelVeld[x][j], aantalStenen);
+                        }
+       
+                    } while (!extraSteenBijRij);
+         i = x;           
+                }
+            }
+
+        }
+
+        for (Rij rij : rijen) {
+            if (!rij.controleRij()) {
+                goedKeuring = false;
+            }
+        }
+        return goedKeuring;
+
     }
 }

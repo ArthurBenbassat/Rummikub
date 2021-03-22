@@ -5,8 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
@@ -52,7 +51,7 @@ public class StartView extends BorderPane {
         lblTitelSpel.setTextFill(Color.BLUE);
 
         //settings btnStart
-        btnStart.setTextFill(Color.RED);
+        btnStart.setStyle("-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-radius: 30; -fx-background-insets: 0; -fx-text-fill: white;");
 
         // settings image
         this.imgAfbeelding.setFitWidth(700);
@@ -66,6 +65,7 @@ public class StartView extends BorderPane {
 
         //setting btnSpelregels
         this.setBottom(btnSpelregels);
+        btnSpelregels.setStyle("-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-radius: 30; -fx-background-insets: 0; -fx-text-fill: white;");
         BorderPane.setAlignment(btnSpelregels, Pos.BOTTOM_CENTER);
         BorderPane.setMargin(btnSpelregels, new Insets(10, 10, 10, 10));
 
@@ -73,7 +73,7 @@ public class StartView extends BorderPane {
         Menu menuHelp = new Menu("Help", null, overOnsMI, infoMI);
         MenuBar menuBar = new MenuBar(menuFile, menuHelp);
         setTop(menuBar);
-
+        this.setBackground(new Background(new BackgroundFill(Color.web("#086ea8", 1), new CornerRadii(0), Insets.EMPTY)));
     }
 
     public ImageView getAfbeelding() {

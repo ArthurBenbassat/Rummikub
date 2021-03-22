@@ -7,6 +7,7 @@ import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.layout.BorderPane;
 
 public class AboutView extends BorderPane {
+
     // private Node attributen (controls)
     private MenuItem exitMI;
     private MenuItem infoMI;
