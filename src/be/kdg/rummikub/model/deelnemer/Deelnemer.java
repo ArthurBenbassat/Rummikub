@@ -5,7 +5,11 @@ import be.kdg.rummikub.model.steen.Steen;
 import be.kdg.rummikub.view.spel.AfbeeldingSteen;
 
 import java.util.*;
-
+/**
+ * Deze klasse is een onderdeel van het spel
+ * @author Wouter Selis & Arthur Benbassat
+ * @version 1.0
+ */
 public class Deelnemer {
     private ArrayList<Steen> stenen;
     private int aantalGezettenZetten;

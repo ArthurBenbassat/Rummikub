@@ -9,6 +9,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
+/**
+ * In deze klasse bevinden zich de spelregels
+ * @author Wouter Selis & Arthur Benbassat
+ * @version 1.0
+ * */
 public class Spelregels {
     public static String getSpelregels() {
         StringBuilder tekst = new StringBuilder();
@@ -28,7 +33,7 @@ public class Spelregels {
         return tekst.toString();
     }
 
-    public int getTijdslimietInSeconden() {
+    public static int getTijdslimietInSeconden() {
         JSONObject jsonObj = new JSONObject(getSpelregels());
         return jsonObj.getInt("tijdslimietInSeconden");
     }

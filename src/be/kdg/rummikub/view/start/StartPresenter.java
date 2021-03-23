@@ -1,6 +1,8 @@
 package be.kdg.rummikub.view.start;
 
 import be.kdg.rummikub.model.Spel;
+import be.kdg.rummikub.view.about.AboutPresenter;
+import be.kdg.rummikub.view.about.AboutView;
 import be.kdg.rummikub.view.info.InfoPresenter;
 import be.kdg.rummikub.view.info.InfoView;
 import be.kdg.rummikub.view.spel.SpelPresenter;
@@ -9,6 +11,7 @@ import be.kdg.rummikub.view.spelregels.SpelregelsPresenter;
 import be.kdg.rummikub.view.spelregels.SpelregelsView;
 import be.kdg.rummikub.view.statistieken.StatsPresenter;
 import be.kdg.rummikub.view.statistieken.StatsView;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -57,6 +60,31 @@ public class StartPresenter {
             infoStage.setTitle("Info - Rummikub");
             infoStage.getIcons().add(new Image("/fotos/logo.png"));
             infoStage.showAndWait();
+        });
+
+        view.getOverOnsMI().setOnAction(actionEvent -> {
+            AboutView aboutView = new AboutView();
+            new AboutPresenter(model, aboutView);
+
+            Stage aboutStage = new Stage();
+            aboutStage.initOwner(view.getScene().getWindow());
+            aboutStage.initModality(Modality.APPLICATION_MODAL);
+
+            aboutStage.setScene(new Scene(aboutView));
+
+            aboutStage.setX(view.getScene().getWindow().getX() + 100);
+            aboutStage.setY(view.getScene().getWindow().getY() + 100);
+
+            aboutStage.getScene().getWindow().setHeight(200);
+            aboutStage.getScene().getWindow().setWidth(650);
+            aboutStage.setTitle("About - Rummikub");
+            aboutStage.getIcons().add(new Image("/fotos/logo.png"));
+            aboutStage.showAndWait();
+        });
+
+        view.getExitMI().setOnAction(actionEvent -> {
+            Platform.exit();
+            System.exit(0);
         });
 
         view.getStatistiekenMI().setOnAction(actionEvent -> {

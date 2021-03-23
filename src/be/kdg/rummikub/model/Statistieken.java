@@ -9,104 +9,66 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Formatter;
 import java.util.Scanner;
 
+
+/**
+ * In deze klasse kan men de statistieken van de laatste 10 games zien.
+ *@author Wouter Selis & Arthur Benbassat
+ *@version 1.0
+ * */
 public class Statistieken {
     static class Stats {
-        int duur;
+        Date datum;
         int aantalZetten;
         String winnaar;
 
-        Stats(int duur, int aantalZetten, String winnaar) {
-            this.duur = duur;
+        Stats(Date datum, int aantalZetten, String winnaar) {
+            this.datum = datum;
             this.aantalZetten = aantalZetten;
             this.winnaar = winnaar;
         }
     }
 
-    public void voegSpelToe(Spel spel) throws IOException, RuntimeException {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            Stats stats = new Stats(1, spel.getSpelers()[0].getAantalGezettenZetten(), "Naam");
-            String jsonString = mapper.writeValueAsString(stats);
-
-            try {
-                Formatter fm = new Formatter("resources/jsonBestanden/stats.json");
-                fm.format(jsonString);
-                fm.close();
-            } catch (IOException e) {
-                throw new IOException(e);
-            }
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public String getStats() throws IOException {
-        StringBuilder tekst = new StringBuilder();
-        Path bestand = Paths.get("resources/jsonBestanden/stats.json");
-
-        if (Files.exists(bestand)) {
-            try {
-                Scanner fileScanner = new Scanner(bestand);
-                while (fileScanner.hasNext()) {
-                    tekst.append(fileScanner.nextLine());
-                }
-            } catch (IOException e) {
-                throw new IOException(e);
-            }
-        }
-        return tekst.toString();
-    }
 
 
-    public int getStatistieken() {
-        //aanmaken van binair bestand
-
-
+    /**
+     * Gegevens uit een binair bestand lezen
+     * */
+    public static ArrayList<Integer> getStatistieken() throws IOException{
         ArrayList<Integer> stats = new ArrayList<>();
 
-        int x=0;
-        try{
-            FileInputStream filesIs = new FileInputStream("resources/statsFile.bin");
-            ObjectInputStream is = new ObjectInputStream(filesIs);
+        long fileSize = new File("resources/statsFile.bin").length();
+        FileInputStream filesIs = new FileInputStream("resources/statsFile.bin");
 
-            x= is.readInt();
-            int y= is.readInt();
-            System.out.println(x);
-            System.out.println(y);
-            is.close();
-        }catch(FileNotFoundException e){
-            System.out.println(e);
-        }catch(IOException e){
-            System.out.println(e);
-        }
+        ObjectInputStream is = new ObjectInputStream(filesIs);
+            for (int i = 7; i < fileSize; i+=4) {
+                stats.add(is.readInt());
+            }
 
-
-        return x;
-
-
-
+        is.close();
+        return stats;
     }
 
 
+    /**
+     * Gegevens naar een binair bestand schrijven
+     * */
+    public static void setStatistieken(int aantalZetten) throws IOException{
 
-    public void setStatistieken(int aantalzetten) {
+        ArrayList<Integer> stats;
+        stats = getStatistieken();
 
+        FileOutputStream fileOs = new FileOutputStream("resources/statsFile.bin");
+        ObjectOutputStream os = new ObjectOutputStream(fileOs);
 
-        try {
-            FileOutputStream fileOs = new FileOutputStream("resources/statsFile.bin");
-            ObjectOutputStream os = new ObjectOutputStream(fileOs);
-            os.writeInt(5);
-            os.close();
-        } catch (FileNotFoundException e){
-            System.out.println(e);
+        for (Integer stat : stats) {
+            os.writeInt(stat);
         }
-        catch(IOException e){
-            System.out.println(e);
-        }
+        os.writeInt(aantalZetten);
+        os.close();
 
-        System.out.println("gelukt");
     }
 }

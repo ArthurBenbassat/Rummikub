@@ -1,5 +1,9 @@
 package be.kdg.rummikub.model.deelnemer;
-
+/**
+ * Deze klasse is een deelnemer
+ * @author Wouter Selis & Arthur Benbassat
+ * @version 1.0
+ */
 public class Speler extends Deelnemer{
     private String naam;
 

@@ -1,0 +1,12 @@
+be.kdg.rummikub
+be.kdg.rummikub.Console
+be.kdg.rummikub.model
+be.kdg.rummikub.model.deelnemer
+be.kdg.rummikub.model.steen
+be.kdg.rummikub.view.about
+be.kdg.rummikub.view.einde
+be.kdg.rummikub.view.info
+be.kdg.rummikub.view.spel
+be.kdg.rummikub.view.spelregels
+be.kdg.rummikub.view.start
+be.kdg.rummikub.view.statistieken

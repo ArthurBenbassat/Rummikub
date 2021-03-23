@@ -7,7 +7,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-
+/**
+ * Deze klasse is een Deelnemer. Dit bedenkt zelf zetten
+ * @author Wouter Selis & Arthur Benbassat
+ * @version 1.0
+ */
 public abstract class Computer extends Deelnemer {
     private List<List <Steen>> zettenHand;
     private int niveau;

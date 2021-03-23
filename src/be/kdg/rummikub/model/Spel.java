@@ -1,6 +1,5 @@
 package be.kdg.rummikub.model;
 
-import be.kdg.rummikub.model.deelnemer.Computer;
 import be.kdg.rummikub.model.deelnemer.Deelnemer;
 import be.kdg.rummikub.model.deelnemer.MakkelijkeComputer;
 import be.kdg.rummikub.model.deelnemer.Speler;
@@ -18,6 +17,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+/**
+ * Deze klasse is de het hart van het spel. Deze stuurt alles aan.
+ * @author Wouter Selis & Arthur Benbassat
+ * @version 1.0
+ **/
 public class Spel {
     private int beurt;
     private Pot pot;
@@ -66,6 +70,10 @@ public class Spel {
 
     }
 
+    /**
+     * Je zet de hier alles in terug van de vorige zet. Hierbij wordt alles terug opgenomen van het json bestand
+     * @author Wouter Selis & Arthur Benbassat
+     **/
     public void zetAllesTerug() throws IOException{
         StringBuilder tekst = new StringBuilder();
         Path bestand = Paths.get( "resources/jsonBestanden/spel.json");
@@ -89,6 +97,10 @@ public class Spel {
 
     }
 
+    /**
+     * Je zet de hier alles json na een zet.
+     * @author Wouter Selis & Arthur Benbassat
+     */
     public void zetAllesInJson() throws IOException, RuntimeException {
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -114,7 +126,11 @@ public class Spel {
         beurt = randomBeurt.nextInt(spelers.length);
         startVerdeelStenen();
     }
-    
+
+    /**
+     * De volgende speler wordt hier opgeroepen. ALs de coputer aanzet is worden zijn spelen ook hier gecreerd
+     * @author Wouter Selis & Arthur Benbassat
+     **/
     public void volgendeSpeler(){
         beurt++;
         if (beurt == spelers.length){
@@ -129,7 +145,6 @@ public class Spel {
                     for (int i = 0; i < zetten.size(); i++) {
                         //System.out.println(zetten.get(i));
                     }
-
                 }
             }
             this.volgendeSpeler();

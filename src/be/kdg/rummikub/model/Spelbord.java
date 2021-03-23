@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * In deze klasse bevinden zich de methoden voor het spelbord.
+ * @author Wouter Selis & Arthur Benbassat
+ * @version 1.0
+ * */
 public class Spelbord {
     private List<Rij> rijen;
     private Steen speelVeld[][];
@@ -76,6 +81,10 @@ public class Spelbord {
         speelVeld[locatieX][locatieY] = null;
     }
 
+
+    /**
+     * kijkt speelbord na op rijen en vormt rijen samen tot een geheel.
+     * */
     public boolean checkSpeelveld() {
         System.out.println("test1");
         boolean goedKeuring = true;
@@ -109,6 +118,5 @@ public class Spelbord {
             }
         }
         return goedKeuring;
-
     }
 }

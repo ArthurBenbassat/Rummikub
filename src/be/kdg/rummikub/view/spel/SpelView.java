@@ -8,7 +8,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 
 public class SpelView extends BorderPane {
@@ -82,10 +81,13 @@ public class SpelView extends BorderPane {
 
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
-        btnVraagExtraSteen.setStyle("-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-radius: 30; -fx-background-insets: 0; -fx-text-fill: white;");
-        btnEindeBeurt.setStyle("-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-radius: 30;-fx-background-insets: 0;-fx-text-fill: white;");
+        btnVraagExtraSteen.setStyle("-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-radius: 30; -fx-background-insets: 0; -fx-text-fill: white; -fx-padding: 10;");
+        btnEindeBeurt.setStyle("-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-radius: 30;-fx-background-insets: 0;-fx-text-fill: white; -fx-padding: 10;");
 
         vBox.getChildren().addAll(btnVraagExtraSteen,btnEindeBeurt);
+        VBox.setMargin(btnEindeBeurt, new Insets(10));
+        VBox.setMargin(btnVraagExtraSteen, new Insets(10));
+
         vBox.setStyle("-fx-background-color: #d69a57");
         setRight(vBox);
 

@@ -1,16 +1,20 @@
 package be.kdg.rummikub.view.spelregels;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 public class SpelregelsView extends BorderPane {
-    private Label lblRegels;
     private Button btnTerug;
+    private GridPane spelregels;
 
     private MenuItem exitMI;
     private MenuItem infoMI;
     private MenuItem overOnsMI;
     private MenuItem statistiekenMI;
+
 
     public SpelregelsView() {
         this.initialiseNodes();
@@ -19,24 +23,29 @@ public class SpelregelsView extends BorderPane {
     private void initialiseNodes() {
         // Initialisatie van de Nodes
         this.btnTerug = new Button("Ga terug naar de home");
-        this.lblRegels = new Label();
+
 
         this.exitMI = new MenuItem("Exit");
         this.infoMI = new MenuItem("Info");
         this.overOnsMI = new MenuItem("Over ons");
         this.statistiekenMI = new MenuItem("Statistieken");
+
+        this.spelregels = new GridPane();
     }
     private void layoutNodes() {
-
+        BorderPane.setAlignment(btnTerug, Pos.CENTER);
         this.setBottom(btnTerug);
 
-        this.setCenter(lblRegels);
-        //lblRegels.setText(new SpelregelsPresenter());
+        this.setCenter(spelregels);
 
         Menu menuFile = new Menu("File", null, statistiekenMI, new javafx.scene.control.SeparatorMenuItem(), new javafx.scene.control.SeparatorMenuItem(), exitMI);
         Menu menuHelp = new Menu("Help", null, overOnsMI, infoMI);
         MenuBar menuBar = new MenuBar(menuFile, menuHelp);
         setTop(menuBar);
+
+        this.setBackground(new Background(new BackgroundFill(Color.web("#086ea8", 1), new CornerRadii(0), Insets.EMPTY)));
+
+
 
     }
 
@@ -46,9 +55,7 @@ public class SpelregelsView extends BorderPane {
         return this.btnTerug;
     }
 
-    public void changeRegels(String regels) {
-        lblRegels.setText(regels);
-    }
+    public GridPane getSpelregels() { return this.spelregels; }
 
     public MenuItem getExitMI() { return exitMI; }
 

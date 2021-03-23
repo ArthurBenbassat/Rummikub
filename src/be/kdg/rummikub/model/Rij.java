@@ -4,6 +4,12 @@ import be.kdg.rummikub.model.steen.Steen;
 
 import java.util.*;
 
+
+/**
+ * In deze klasse bevinden zich de methoden voor de rijen.
+ * @author Wouter Selis & Arthur Benbassat
+ * @version 1.0
+ * */
 public class Rij {
     private boolean rijColorType;
     private ArrayList<Steen> steenInRij;
@@ -31,6 +37,9 @@ public class Rij {
         return steenInRij;
     }
 
+    /**
+     * Controle op gelegde rijen
+     * */
     public boolean controleRij() {
         boolean controle = true;
         if (steenInRij.size() >= 3) {

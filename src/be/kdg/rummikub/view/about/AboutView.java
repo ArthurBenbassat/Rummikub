@@ -1,18 +1,13 @@
 package be.kdg.rummikub.view.about;
 
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 
 public class AboutView extends BorderPane {
 
     // private Node attributen (controls)
-    private MenuItem exitMI;
-    private MenuItem infoMI;
-    private MenuItem overOnsMI;
-    private MenuItem statistiekenMI;
+    private Label lblOverOns;
 
     public AboutView() {
         this.initialiseNodes();
@@ -20,24 +15,14 @@ public class AboutView extends BorderPane {
     }
 
     private void initialiseNodes() {
-        this.exitMI = new MenuItem("Exit");
-        this.infoMI = new MenuItem("Info");
-        this.overOnsMI = new MenuItem("Over ons");
-        this.statistiekenMI = new MenuItem("Statistieken");
+        this.lblOverOns = new Label("Wij zijn twee eerstejaars studenten van Toegepaste Informatica aan de Karel de Grote Hogeschool Antwerpen.\nDit spel is een schoolproject voor ons examen van JavaFX.");
     }
 
-    private void layoutNodes() {
-        Menu menuFile = new Menu("File", null, statistiekenMI, new SeparatorMenuItem(), new javafx.scene.control.SeparatorMenuItem(), exitMI);
-        Menu menuHelp = new Menu("Help", null, overOnsMI, infoMI);
-        MenuBar menuBar = new MenuBar(menuFile, menuHelp);
-        setTop(menuBar);
+    private void layoutNodes(){
+        this.setCenter(lblOverOns);
+        lblOverOns.setStyle("-fx-border-color: black; -fx-border-style: solid; -fx-border-radius: 2px");
+        lblOverOns.setPadding(new Insets(20));
     }
 
-    public MenuItem getExitMI() { return exitMI; }
 
-    public MenuItem getInfoMI() { return infoMI; }
-
-    public MenuItem getOverOnsMI() { return overOnsMI; }
-
-    public MenuItem getStatistiekenMI() { return statistiekenMI; }
 }
