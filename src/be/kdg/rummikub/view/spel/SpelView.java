@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Screen;
 
 public class SpelView extends BorderPane {
@@ -23,6 +24,7 @@ public class SpelView extends BorderPane {
     private int veldKolommen = 29;
     private final int eigenRijen = 2;
     private final int eigenKolommen = 24;
+    private Label lblEersteZet;
 
     public SpelView() {
         this.initialiseNodes();
@@ -38,6 +40,7 @@ public class SpelView extends BorderPane {
         this.infoMI = new MenuItem("Info");
         this.overOnsMI = new MenuItem("Over ons");
         this.statistiekenMI = new MenuItem("Statistieken");
+        this.lblEersteZet = new Label("Goedgekeurd");
     }
 
     private void layoutNodes() {
@@ -83,10 +86,15 @@ public class SpelView extends BorderPane {
         vBox.setAlignment(Pos.CENTER);
         btnVraagExtraSteen.setStyle("-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-radius: 30; -fx-background-insets: 0; -fx-text-fill: white; -fx-padding: 10;");
         btnEindeBeurt.setStyle("-fx-background-color: linear-gradient(#ff5400, #be1d00); -fx-background-radius: 30;-fx-background-insets: 0;-fx-text-fill: white; -fx-padding: 10;");
+        lblEersteZet.setFont(new Font(17));
+        lblEersteZet.setStyle("-fx-background-color: #39d624; -fx-background-radius: 30;-fx-background-insets: 0;-fx-text-fill: white; -fx-padding: 10;");
 
-        vBox.getChildren().addAll(btnVraagExtraSteen,btnEindeBeurt);
+        lblEersteZet.setVisible(false);
+
+        vBox.getChildren().addAll(btnVraagExtraSteen,btnEindeBeurt, lblEersteZet);
         VBox.setMargin(btnEindeBeurt, new Insets(10));
         VBox.setMargin(btnVraagExtraSteen, new Insets(10));
+        VBox.setMargin(lblEersteZet, new Insets(10));
 
         vBox.setStyle("-fx-background-color: #d69a57");
         setRight(vBox);
@@ -126,4 +134,6 @@ public class SpelView extends BorderPane {
     public Button getBtnEindeBeurt() {
         return btnEindeBeurt;
     }
+
+    public Label getLblEersteZet(){return lblEersteZet;}
 }

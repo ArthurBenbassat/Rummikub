@@ -13,9 +13,19 @@ import java.util.*;
 public class Deelnemer {
     private ArrayList<Steen> stenen;
     private int aantalGezettenZetten;
+    private boolean eersteZet;
 
     public Deelnemer() {
         stenen = new ArrayList<>();
+        eersteZet = false;
+    }
+
+    public boolean isEersteZet() {
+        return eersteZet;
+    }
+
+    public void setEersteZet(boolean eersteZet) {
+        this.eersteZet = eersteZet;
     }
 
     public ArrayList<Steen> getStenen() {

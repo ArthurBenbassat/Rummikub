@@ -9,6 +9,16 @@ import java.util.Scanner;
 
 public class ConsoleMain {
     public static void main(String[] args) {
+        try {
+            //Statistieken.setStatistieken(7);
+            //Statistieken.setStatistieken(15);
+            //Statistieken.setStatistieken(10);
+            Statistieken.setStatistieken(14);
+        } catch (IOException e) {
+            System.out.println("kkr");
+        }
+
+        System.exit(0);
 
         Spel spel = new Spel(2);
         Scanner keyboard = new Scanner(System.in);
@@ -23,7 +33,11 @@ public class ConsoleMain {
             } while (eindeRonde != 0 && eindeRonde != 1);
 
             if (eindeRonde == 1){
-                spel.volgendeSpeler();
+                try {
+                    spel.volgendeSpeler();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 Steen extraSteen = spel.getPot().getRandomSteen();
                 spel.getSpelers()[spel.getBeurt()].addSteen(extraSteen);
                 spel.getPot().getStenen().remove(extraSteen);
@@ -71,7 +85,11 @@ public class ConsoleMain {
                 } while (beurt);
 
                 System.out.println(spel.getSpelbord());
-                spel.volgendeSpeler();
+                try {
+                    spel.volgendeSpeler();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
             }
         }

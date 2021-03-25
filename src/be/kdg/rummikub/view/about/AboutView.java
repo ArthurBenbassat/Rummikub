@@ -2,7 +2,11 @@ package be.kdg.rummikub.view.about;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 
 public class AboutView extends BorderPane {
 
@@ -22,6 +26,7 @@ public class AboutView extends BorderPane {
         this.setCenter(lblOverOns);
         lblOverOns.setStyle("-fx-border-color: black; -fx-border-style: solid; -fx-border-radius: 2px");
         lblOverOns.setPadding(new Insets(20));
+        this.setBackground(new Background(new BackgroundFill(Color.web("#086ea8", 1), new CornerRadii(0), Insets.EMPTY)));
     }
 
 

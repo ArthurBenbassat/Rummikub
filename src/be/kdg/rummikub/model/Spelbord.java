@@ -15,18 +15,18 @@ import java.util.List;
 public class Spelbord {
     private List<Rij> rijen;
     private Steen speelVeld[][];
+
+
     public Spelbord(){
         rijen = new ArrayList<>();
     }
+
+
     public Spelbord(List<Rij> rijen, Steen speelVeld[][]) {
         this.rijen = rijen;
         this.speelVeld = speelVeld;
     }
 
-
-    public boolean checkEersteZet() {
-        return false;
-    }
 
     public Rij addRij(Steen steen, int locatieY) {
         rijen.add(new Rij(steen, locatieY));
@@ -86,7 +86,6 @@ public class Spelbord {
      * kijkt speelbord na op rijen en vormt rijen samen tot een geheel.
      * */
     public boolean checkSpeelveld() {
-        System.out.println("test1");
         boolean goedKeuring = true;
         rijen.clear();
         for (int i = 0; i < speelVeld.length; i++) {

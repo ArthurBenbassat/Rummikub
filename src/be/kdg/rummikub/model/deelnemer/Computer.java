@@ -64,8 +64,8 @@ public abstract class Computer extends Deelnemer {
                         }
                     }
                 }
-                System.out.println(Spelregels.getstartAantalSteentejes());
-                if (speelbaar.size() >= Spelregels.getstartAantalSteentejes()) {
+
+                if (speelbaar.size() >= Spelregels.getaantalStenenPerRij()) {
                     System.out.println(speelbaar);
                     zettenHand.add(speelbaar);
                     System.out.println(zettenHand.size());
@@ -99,5 +99,7 @@ public abstract class Computer extends Deelnemer {
             }
         }
     }
+
+
 
 }

@@ -47,4 +47,9 @@ public class Spelregels {
         JSONObject jsonObj = new JSONObject(getSpelregels());
         return jsonObj.getInt("startAantalSteentjes");
     }
+
+    public static int getaantalStenenPerRij() {
+        JSONObject jsonObj = new JSONObject(getSpelregels());
+        return jsonObj.getInt("aantalStenenPerRij");
+    }
 }

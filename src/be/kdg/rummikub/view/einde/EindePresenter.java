@@ -1,29 +1,27 @@
-package be.kdg.rummikub.view.start;
+package be.kdg.rummikub.view.einde;
 
 import be.kdg.rummikub.model.Spel;
+import be.kdg.rummikub.model.deelnemer.Speler;
 import be.kdg.rummikub.view.about.AboutPresenter;
 import be.kdg.rummikub.view.about.AboutView;
 import be.kdg.rummikub.view.info.InfoPresenter;
 import be.kdg.rummikub.view.info.InfoView;
 import be.kdg.rummikub.view.spel.SpelPresenter;
 import be.kdg.rummikub.view.spel.SpelView;
-import be.kdg.rummikub.view.spelregels.SpelregelsPresenter;
-import be.kdg.rummikub.view.spelregels.SpelregelsView;
 import be.kdg.rummikub.view.statistieken.StatsPresenter;
 import be.kdg.rummikub.view.statistieken.StatsView;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class StartPresenter {
-    private Spel model;
-    private  StartView view;
+public class EindePresenter {
 
-    public StartPresenter(Spel model, StartView view) {
+    private Spel model;
+    private EindeView view;
+
+    public EindePresenter(Spel model, EindeView view) {
         this.model = model;
         this.view = view;
         this.addEventHandlers();
@@ -31,15 +29,26 @@ public class StartPresenter {
     }
 
     private void addEventHandlers() {
-        view.getBtnSpelregels().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                SpelregelsView spelregelsView = new SpelregelsView();
-                new SpelregelsPresenter(model, spelregelsView);
-                view.getScene().setRoot(spelregelsView);
 
-            }
+        /**
+         * Actie bij drukken op button Opnieuw
+         * */
+        view.getBtnOpnieuw().setOnAction(actionEvent -> {
+
+            SpelView spelView = new SpelView();
+            new SpelPresenter(model, spelView);
+            view.getScene().setRoot(spelView);
         });
+
+
+        /**
+         * Actie bij drukken op button Stoppen
+         * */
+        view.getBtnStoppen().setOnAction(actionEvent -> {
+            Platform.exit();
+            System.exit(0);
+    });
+
 
 
         /**
@@ -66,7 +75,6 @@ public class StartPresenter {
             infoStage.showAndWait();
         });
 
-
         /**
          * Actie bij drukken op menu item Over ons
          * */
@@ -90,7 +98,6 @@ public class StartPresenter {
             aboutStage.showAndWait();
         });
 
-
         /**
          * Actie bij drukken op menu item Exit
          * */
@@ -98,7 +105,6 @@ public class StartPresenter {
             Platform.exit();
             System.exit(0);
         });
-
 
         /**
          * Actie bij drukken op menu item Statistieken
@@ -113,8 +119,8 @@ public class StartPresenter {
 
             statsStage.setScene(new Scene(statsView));
 
-            statsStage.setX(view.getScene().getWindow().getX()+100);
-            statsStage.setY(view.getScene().getWindow().getY()+100);
+            statsStage.setX(view.getScene().getWindow().getX() + 100);
+            statsStage.setY(view.getScene().getWindow().getY() + 100);
 
             statsStage.getScene().getWindow().setHeight(600);
             statsStage.getScene().getWindow().setWidth(600);
@@ -122,18 +128,18 @@ public class StartPresenter {
             statsStage.getIcons().add(new Image("/fotos/logo.png"));
             statsStage.showAndWait();
         });
-
-        view.getBtnStart().setOnAction(actionEvent ->  {
-
-                SpelView spelView = new SpelView();
-                new SpelPresenter(model, spelView);
-                view.getScene().setRoot(spelView);
-        });
-
     }
-    private void updateView() {
-        //view.imgAfbeelding.setImage(new Image("/fotos/stenen/B1.png"));
-        //iew.imgAfbeelding.setImage(new Image(model.getPot().getStenen().get(0).getPad()));
 
+    /**
+     * Berekening van winnaar en verliezer op eindscherm
+     **/
+    private void updateView() {
+        if (model.getSpelers()[model.getBeurt()] instanceof Speler) {
+            view.getLblWinner().setText(((Speler) model.getSpelers()[model.getBeurt()]).getNaam());
+            view.getLblVerliezer().setText("Computer");
+        } else {
+            view.getLblWinner().setText("Computer");
+            view.getLblVerliezer().setText(((Speler) model.getSpelers()[0]).getNaam());
+        }
     }
 }

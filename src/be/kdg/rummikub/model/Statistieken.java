@@ -1,5 +1,7 @@
 package be.kdg.rummikub.model;
 
+import be.kdg.rummikub.view.spel.SpelPresenter;
+import be.kdg.rummikub.view.spelregels.SpelregelsView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.internal.bind.util.ISO8601Utils;
@@ -8,10 +10,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Formatter;
-import java.util.Scanner;
+import java.util.*;
 
 
 /**
@@ -49,6 +48,7 @@ public class Statistieken {
             }
 
         is.close();
+        Collections.sort(stats);
         return stats;
     }
 
@@ -57,17 +57,27 @@ public class Statistieken {
      * Gegevens naar een binair bestand schrijven
      * */
     public static void setStatistieken(int aantalZetten) throws IOException{
-
         ArrayList<Integer> stats;
         stats = getStatistieken();
 
         FileOutputStream fileOs = new FileOutputStream("resources/statsFile.bin");
         ObjectOutputStream os = new ObjectOutputStream(fileOs);
+        stats.add(aantalZetten);
+        Collections.sort(stats);
+        boolean maxAantalStats = false;
+        while (!maxAantalStats){
+            if (stats.size() > 10 ){
+                System.out.println(stats.get(stats.size() - 1 ));
+                stats.remove(stats.size() - 1 );
+            } else{
+                maxAantalStats = true;
+            }
+        }
 
         for (Integer stat : stats) {
             os.writeInt(stat);
         }
-        os.writeInt(aantalZetten);
+
         os.close();
 
     }

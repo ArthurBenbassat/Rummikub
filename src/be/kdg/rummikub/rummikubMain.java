@@ -12,9 +12,9 @@ public class rummikubMain extends Application {
     @Override
     public void start(Stage primaryStage) {
         Spel model = new Spel(2);
-        StartView view = new StartView();
-        new StartPresenter(model, view);
-        Scene scene = new Scene(view);
+        StartView startView = new StartView();
+        new StartPresenter(model, startView);
+        Scene scene = new Scene(startView);
 
         primaryStage.setTitle("Rummikub");
         primaryStage.setMaximized(true);
@@ -22,6 +22,7 @@ public class rummikubMain extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.show();
+
     }
 
     public static void main(String[] args) {

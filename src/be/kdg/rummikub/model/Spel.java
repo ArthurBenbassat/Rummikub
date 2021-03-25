@@ -50,9 +50,11 @@ public class Spel {
     }
 
     public void maakStenenAan() {
-        for (int i = 1; i <= 13; i++) {
-            for (Kleur kleur : Kleur.values()) {
-                pot.addSteen(new Steen(kleur, i));
+        for (int x = 0; x < 2 ; x++) {
+            for (int i = 1; i <= 13; i++) {
+                for (Kleur kleur : Kleur.values()) {
+                    pot.addSteen(new Steen(kleur, i));
+                }
             }
         }
         pot.addSteen(new Steen(Kleur.ZWART, 0));
@@ -61,7 +63,7 @@ public class Spel {
 
     public void startVerdeelStenen() {
         for (Deelnemer speler : spelers) {
-            for (int j = 0; j < 14; j++) {
+            for (int j = 0; j < Spelregels.getstartAantalSteentejes(); j++) {
                 Steen steen = pot.getRandomSteen();
                 speler.addSteen(steen);
                 pot.getStenen().remove(steen);
@@ -122,8 +124,7 @@ public class Spel {
 
     public void startSpel(){
         maakStenenAan();
-        Random randomBeurt = new Random();
-        beurt = randomBeurt.nextInt(spelers.length);
+        beurt = 0;
         startVerdeelStenen();
     }
 
@@ -131,22 +132,34 @@ public class Spel {
      * De volgende speler wordt hier opgeroepen. ALs de coputer aanzet is worden zijn spelen ook hier gecreerd
      * @author Wouter Selis & Arthur Benbassat
      **/
-    public void volgendeSpeler(){
+    public void volgendeSpeler() throws IOException{
         beurt++;
+        System.out.println("wow");
         if (beurt == spelers.length){
             beurt = 0;
         }
         if (beurt != 0) {
             if (spelers[beurt] instanceof MakkelijkeComputer) {
                 ((MakkelijkeComputer) spelers[beurt]).berekenZet();
-                System.out.println("aantal opties" + ((MakkelijkeComputer) spelers[beurt]).getZettenHand().size());
-                for (List<Steen> zetten: ((MakkelijkeComputer) spelers[beurt]).getZettenHand()) {
-                    System.out.println("Rij" + zetten);
-                    for (int i = 0; i < zetten.size(); i++) {
-                        //System.out.println(zetten.get(i));
+                System.out.println("aantal opties: " + ((MakkelijkeComputer) spelers[beurt]).getZettenHand().size());
+                if (((MakkelijkeComputer) spelers[beurt]).getZettenHand().size() == 0) {
+                    System.out.println("extra");
+                    Steen extraSteen = getPot().getRandomSteen();
+                    spelers[beurt].addSteen(extraSteen);
+                    getPot().getStenen().remove(extraSteen);
+                    spelers[beurt].verhoogZet();
+
+                } else {
+                    for (List<Steen> zetten: ((MakkelijkeComputer) spelers[beurt]).getZettenHand()) {
+                        System.out.println("Rij" + zetten);
+                        for (int i = 0; i < zetten.size(); i++) {
+                            System.out.println(zetten.get(i));
+                        }
                     }
                 }
+
             }
+            zetAllesInJson();
             this.volgendeSpeler();
         }
     }
@@ -169,6 +182,22 @@ public class Spel {
 
     public void setBeurt(int beurt) {
         this.beurt = beurt;
+    }
+
+    public static Steen[][] getVorigSpeelveld() throws IOException {
+        StringBuilder tekst = new StringBuilder();
+        Path bestand = Paths.get( "resources/jsonBestanden/spel.json");
+
+        if (Files.exists(bestand)){
+            Scanner fileScanner = new Scanner(bestand);
+            while (fileScanner.hasNext()) {
+                tekst.append(fileScanner.nextLine());
+            }
+
+        }
+        Gson gson = new Gson();
+        Spel spel = gson.fromJson(tekst.toString(), Spel.class);
+        return spel.getSpelbord().getSpeelVeld();
     }
 
 }
