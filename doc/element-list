@@ -6,6 +6,7 @@ be.kdg.rummikub.model.steen
 be.kdg.rummikub.view.about
 be.kdg.rummikub.view.einde
 be.kdg.rummikub.view.info
+be.kdg.rummikub.view.inputNaam
 be.kdg.rummikub.view.spel
 be.kdg.rummikub.view.spelregels
 be.kdg.rummikub.view.start
