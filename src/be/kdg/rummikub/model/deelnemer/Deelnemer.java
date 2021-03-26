@@ -1,8 +1,6 @@
 package be.kdg.rummikub.model.deelnemer;
 
-import be.kdg.rummikub.model.Rij;
 import be.kdg.rummikub.model.steen.Steen;
-import be.kdg.rummikub.view.spel.AfbeeldingSteen;
 
 import java.util.*;
 /**
@@ -44,13 +42,7 @@ public class Deelnemer {
         aantalGezettenZetten++;
     }
 
-    public boolean isGewonnen() {
-        return false;
-    }
 
-    public void speelZet(AfbeeldingSteen steen) {
-
-    }
 
 
     public void addSteen(Steen steen) {
@@ -58,8 +50,5 @@ public class Deelnemer {
     }
 
 
-    public void verwijderSteen(int steenIndex) {
-        stenen.remove(steenIndex);
-    }
 
 }

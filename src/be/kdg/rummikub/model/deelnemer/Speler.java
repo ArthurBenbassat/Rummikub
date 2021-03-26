@@ -15,6 +15,10 @@ public class Speler extends Deelnemer{
         return naam;
     }
 
+    public void setNaam(String naam) {
+            this.naam = naam;
+    }
+
     @Override
     public String toString() {
         return "Speler{" +

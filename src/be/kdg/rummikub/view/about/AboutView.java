@@ -19,7 +19,7 @@ public class AboutView extends BorderPane {
     }
 
     private void initialiseNodes() {
-        this.lblOverOns = new Label("Wij zijn twee eerstejaars studenten van Toegepaste Informatica aan de Karel de Grote Hogeschool Antwerpen.\nDit spel is een schoolproject voor ons examen van JavaFX.");
+        this.lblOverOns = new Label("Wij zijn twee eerstejaarsstudenten van Toegepaste Informatica aan de Karel de Grote Hogeschool Antwerpen.\nDit spel is een schoolproject voor ons examen van JavaFX.");
     }
 
     private void layoutNodes(){

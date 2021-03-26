@@ -77,7 +77,7 @@ public class SpelView extends BorderPane {
 
         this.setCenter(gdpSpelbord);
 
-        Menu menuFile = new Menu("File", null, statistiekenMI, new SeparatorMenuItem(), new SeparatorMenuItem(), exitMI);
+        Menu menuFile = new Menu("Bestand", null, statistiekenMI, exitMI);
         Menu menuHelp = new Menu("Help", null, overOnsMI, infoMI);
         MenuBar menuBar = new MenuBar(menuFile, menuHelp);
         setTop(menuBar);

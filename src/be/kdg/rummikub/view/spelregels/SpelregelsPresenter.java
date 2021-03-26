@@ -7,13 +7,9 @@ import be.kdg.rummikub.view.start.StartPresenter;
 import be.kdg.rummikub.view.start.StartView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.LightBase;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 
@@ -39,14 +35,9 @@ public class SpelregelsPresenter {
         });
     }
     private void updateView() {
-        Label titelTijd = new Label("tijdslimietInSeconden:");
-        titelTijd.setFont(new Font(20));
-        view.getSpelregels().add(titelTijd, 0, 0);
-        Label tijd = new Label(String.valueOf(Spelregels.getTijdslimietInSeconden()));
-        tijd.setFont(new Font(20));
-        view.getSpelregels().add(tijd, 1, 0);
 
-        Label titelPunten = new Label("Aantal Punten minimaal voor de eerste zet:");
+
+        Label titelPunten = new Label("Aantal punten minimaal voor de eerste zet:");
         titelPunten.setFont(new Font(20));
         view.getSpelregels().add(titelPunten, 0, 1);
         Label punten = new Label(String.valueOf(Spelregels.getMinimunAantalPuntenEersteZet()));

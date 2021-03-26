@@ -14,7 +14,6 @@ public class StatsPresenter {
         this.model = model;
         this.view = view;
         this.updateView();
-        this.addEventHandlers();
     }
 
     private void updateView() {
@@ -30,10 +29,6 @@ public class StatsPresenter {
 
             alert.showAndWait();
         }
-
-    }
-
-    private void addEventHandlers() {
 
     }
 }

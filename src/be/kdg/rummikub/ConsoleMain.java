@@ -33,11 +33,7 @@ public class ConsoleMain {
             } while (eindeRonde != 0 && eindeRonde != 1);
 
             if (eindeRonde == 1){
-                try {
-                    spel.volgendeSpeler();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                spel.volgendeSpeler();
                 Steen extraSteen = spel.getPot().getRandomSteen();
                 spel.getSpelers()[spel.getBeurt()].addSteen(extraSteen);
                 spel.getPot().getStenen().remove(extraSteen);
@@ -85,11 +81,7 @@ public class ConsoleMain {
                 } while (beurt);
 
                 System.out.println(spel.getSpelbord());
-                try {
-                    spel.volgendeSpeler();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                spel.volgendeSpeler();
 
             }
         }

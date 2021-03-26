@@ -45,7 +45,7 @@ public class SpelregelsView extends BorderPane {
         BorderPane.setAlignment(btnTerug, Pos.CENTER);
         this.setBottom(btnTerug);
 
-        Menu menuFile = new Menu("File", null, statistiekenMI, new javafx.scene.control.SeparatorMenuItem(), new javafx.scene.control.SeparatorMenuItem(), exitMI);
+        Menu menuFile = new Menu("Bestand", null, statistiekenMI, exitMI);
         Menu menuHelp = new Menu("Help", null, overOnsMI, infoMI);
         MenuBar menuBar = new MenuBar(menuFile, menuHelp);
         setTop(menuBar);

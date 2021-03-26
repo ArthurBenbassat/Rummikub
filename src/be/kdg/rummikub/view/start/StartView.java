@@ -69,7 +69,7 @@ public class StartView extends BorderPane {
         BorderPane.setAlignment(btnSpelregels, Pos.BOTTOM_CENTER);
         BorderPane.setMargin(btnSpelregels, new Insets(10, 10, 10, 10));
 
-        Menu menuFile = new Menu("File", null, statistiekenMI, new SeparatorMenuItem(), new javafx.scene.control.SeparatorMenuItem(), exitMI);
+        Menu menuFile = new Menu("Bestand", null, statistiekenMI, exitMI);
         Menu menuHelp = new Menu("Help", null, overOnsMI, infoMI);
         MenuBar menuBar = new MenuBar(menuFile, menuHelp);
         setTop(menuBar);

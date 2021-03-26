@@ -1,8 +1,6 @@
 package be.kdg.rummikub.view.info;
 
 import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -21,7 +19,7 @@ public class InfoView extends BorderPane {
 
 
     private void initialiseNodes() {
-        lblInfo = new Label("Hallo!\nWij zijn twee studenten van KdG Hogeschool Antwerpen.\nDit is ons project voor het vak Programeren 1.\nAlle voor rechten voor behouden.\n©Wouter Selis & Arthur Benbassat");
+        lblInfo = new Label("Hallo!\nWij zijn twee studenten van KdG Hogeschool Antwerpen.\nDit is ons project voor het vak Programeren 1.\nDit is versie 1 van ons spel.\nAlle voor rechten voor behouden.\n©Wouter Selis & Arthur Benbassat");
     }
 
     private void layoutNodes() {

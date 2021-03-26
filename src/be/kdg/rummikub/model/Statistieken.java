@@ -1,15 +1,6 @@
 package be.kdg.rummikub.model;
 
-import be.kdg.rummikub.view.spel.SpelPresenter;
-import be.kdg.rummikub.view.spelregels.SpelregelsView;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.internal.bind.util.ISO8601Utils;
-
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 
@@ -19,20 +10,6 @@ import java.util.*;
  *@version 1.0
  * */
 public class Statistieken {
-    static class Stats {
-        Date datum;
-        int aantalZetten;
-        String winnaar;
-
-        Stats(Date datum, int aantalZetten, String winnaar) {
-            this.datum = datum;
-            this.aantalZetten = aantalZetten;
-            this.winnaar = winnaar;
-        }
-    }
-
-
-
     /**
      * Gegevens uit een binair bestand lezen
      * */

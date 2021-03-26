@@ -41,24 +41,12 @@ public class Spelbord {
         speelVeld = new Steen[x][y];
     }
 
-    public void plaatsSteen(int locatieX, int locatieY, Steen steen) {
+    public void plaatsSteen(int locatieX, int locatieY, Steen steen) throws RuntimeException {
         if (speelVeld[locatieX][locatieY] != null) {
             throw new RuntimeException("Er staat al een steen");
         }
 
         speelVeld[locatieX][locatieY] = steen;
-    }
-
-    private int getPlaats(Rij rij, Steen steen, int locatieX) {
-        for (int j = 0; j < rij.getSteenInRij().size(); j++) {
-            //if (rij)
-
-        }
-        return 0;
-    }
-
-    private void schuifSpeelveldOp(Steen steen) {
-
     }
 
     public Steen[][] getSpeelVeld() {
@@ -117,5 +105,31 @@ public class Spelbord {
             }
         }
         return goedKeuring;
+    }
+
+    public ArrayList<Integer> getStartNieuweRij() {
+        int aantalVrijKolommen = 0;
+        ArrayList<Integer> plaats = new ArrayList<>();
+        for (int i = 0; i < speelVeld[0].length; i++) {
+            for (int j = 0; j < speelVeld.length; j++) {
+                if (speelVeld[j][i] == null) {
+                    aantalVrijKolommen++;
+                } else {
+                    aantalVrijKolommen=0;
+                }
+                if (aantalVrijKolommen==5) {
+                    plaats.add(j - 3);
+                    plaats.add(i);
+                    return plaats;
+                }
+            }
+            aantalVrijKolommen=0;
+        }
+
+        plaats.add(99);
+        plaats.add(99);
+
+        return plaats;
+
     }
 }

@@ -11,10 +11,7 @@ import java.util.*;
  * @version 1.0
  * */
 public class Rij {
-    private boolean rijColorType;
     private ArrayList<Steen> steenInRij;
-    private int minLocatie;
-    private int maxLocatie;
     private int locatieY;
 
     //TODO minstens 3 stenen meegeven om rij te maken
@@ -26,7 +23,6 @@ public class Rij {
 
     public void addSteen(Steen steen) {
         steenInRij.add(steen);
-        rijColorType = steenInRij.get(0).getKleur() == steen.getKleur();
     }
 
     public void addSteen(Steen steen, int positie) {
@@ -47,10 +43,8 @@ public class Rij {
                 if (i != 0) {
                     if( (steenInRij.get(i).getKleur() == steenInRij.get(i - 1).getKleur() && steenInRij.get(i).getWaarde() == (steenInRij.get(i - 1).getWaarde() + 1)) || (steenInRij.get(i).getWaarde() == 0) || steenInRij.get(i - 1).getWaarde() == 0) {
                         controle = true;
-                        rijColorType = true;
                     } else if ((steenInRij.get(i).getWaarde() == getSteenInRij().get(i - 1).getWaarde() && steenInRij.get(i).getKleur() != steenInRij.get(i - 1).getKleur()  || (steenInRij.get(i).getWaarde() == 0) || steenInRij.get(i - 1).getWaarde() == 0)) {
                         controle = true;
-                        rijColorType = false;
                     } else {
                         controle = false;
                     }
@@ -74,25 +68,6 @@ public class Rij {
         return uitkomst;
     }
 
-    public int getMinLocatie() {
-        return minLocatie;
-    }
-
-    public int getMaxLocatie() {
-        return maxLocatie;
-    }
-
-    public int getLocatieY() {
-        return locatieY;
-    }
-
-    public void setMaxLocatie(int maxLocatie) {
-        this.maxLocatie = maxLocatie;
-    }
-
-    public void setMinLocatie(int minLocatie) {
-        this.minLocatie = minLocatie;
-    }
 }
 
 

@@ -40,7 +40,8 @@ public class EindeView extends BorderPane {
     }
 
     private void layoutNodes() {
-        Menu menuFile = new Menu("File", null, statistiekenMI, new SeparatorMenuItem(), new javafx.scene.control.SeparatorMenuItem(), exitMI);
+
+        Menu menuFile = new Menu("Bestand", null, statistiekenMI, exitMI);
         Menu menuHelp = new Menu("Help", null, overOnsMI, infoMI);
         MenuBar menuBar = new MenuBar(menuFile, menuHelp);
         setTop(menuBar);

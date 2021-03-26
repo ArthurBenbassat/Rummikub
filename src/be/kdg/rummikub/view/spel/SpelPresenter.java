@@ -2,12 +2,19 @@ package be.kdg.rummikub.view.spel;
 
 import be.kdg.rummikub.model.Spel;
 import be.kdg.rummikub.model.Spelregels;
+import be.kdg.rummikub.model.deelnemer.Computer;
+import be.kdg.rummikub.model.deelnemer.MakkelijkeComputer;
 import be.kdg.rummikub.model.deelnemer.Speler;
 import be.kdg.rummikub.model.steen.Steen;
 import be.kdg.rummikub.view.about.AboutPresenter;
 import be.kdg.rummikub.view.about.AboutView;
+import be.kdg.rummikub.view.einde.EindePresenter;
+import be.kdg.rummikub.view.einde.EindeView;
 import be.kdg.rummikub.view.info.InfoPresenter;
 import be.kdg.rummikub.view.info.InfoView;
+import be.kdg.rummikub.view.inputNaam.InputNaamPresenter;
+import be.kdg.rummikub.view.spelregels.SpelregelsPresenter;
+import be.kdg.rummikub.view.spelregels.SpelregelsView;
 import be.kdg.rummikub.view.statistieken.StatsPresenter;
 import be.kdg.rummikub.view.statistieken.StatsView;
 import javafx.animation.PauseTransition;
@@ -24,6 +31,7 @@ import javafx.util.Duration;
 
 
 import java.io.IOException;
+import java.util.List;
 import java.util.function.Consumer;
 
 public class SpelPresenter {
@@ -65,20 +73,18 @@ public class SpelPresenter {
                 }
 
                 if (anders) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR, "Je hebt nog steen(en) op het veld staan.\nWil alles terug zetten?", ButtonType.YES, ButtonType.NO);
-                    alert.showAndWait().ifPresent(buttonType -> {
-                        if (buttonType == ButtonType.YES) {
-                            try {
-                                model.zetAllesTerug();
-                                this.updateGridSpelBord();
-                                this.updateView();
 
-                                extraSteen();
-                            } catch (IOException e) {
-                                this.setAlert("Fout bij het restoren");
-                            }
-                        }
-                    });
+                    try {
+                        model.zetAllesTerug();
+                        this.updateGridSpelBord();
+                        this.updateView();
+
+                        extraSteen();
+                    } catch (IOException e) {
+                        this.setAlert("Fout bij het restoren");
+                    }
+
+
                 } else {
                     extraSteen();
                 }
@@ -133,32 +139,37 @@ public class SpelPresenter {
 
             if (verplaatsing != null) {
                 if (mouseEvent.getPickResult().getIntersectedNode() != null) {
-                    veldAfbeelding = (AfbeeldingSteen) mouseEvent.getPickResult().getIntersectedNode();
-                    try {
-                        model.getSpelbord().plaatsSteen(veldAfbeelding.getXGrid(), veldAfbeelding.getYGrid(), verplaatsing);
-                        verplaatsing = null;
-                        view.getGdpSpelbord().add(updateSpelBord(veldAfbeelding), veldAfbeelding.getXGrid(), veldAfbeelding.getYGrid());
+                    if (mouseEvent.getPickResult().getIntersectedNode() instanceof AfbeeldingSteen) {
+                        veldAfbeelding = (AfbeeldingSteen) mouseEvent.getPickResult().getIntersectedNode();
+                        try {
+                            model.getSpelbord().plaatsSteen(veldAfbeelding.getXGrid(), veldAfbeelding.getYGrid(), verplaatsing);
+                            verplaatsing = null;
+                            view.getGdpSpelbord().add(updateSpelBord(veldAfbeelding), veldAfbeelding.getXGrid(), veldAfbeelding.getYGrid());
 
-                        view.setCursor(Cursor.DEFAULT);
-                        spelerAfbeelding = null;
-                    } catch (RuntimeException e) {
-                        this.setAlert(e.getMessage());
+                            view.setCursor(Cursor.DEFAULT);
+                            spelerAfbeelding = null;
+                        } catch (RuntimeException e) {
+                            this.setAlert(e.getMessage());
+                        }
                     }
+
                 }
             } else {
                 if (veldAfbeelding != null) {
                     if (mouseEvent.getPickResult().getIntersectedNode() != null) {
-                        veldAfbeelding = (AfbeeldingSteen) mouseEvent.getPickResult().getIntersectedNode();
-                        if (veldAfbeelding.getUrl() != null && !veldAfbeelding.getUrl().contains("wi")) {
+                        if (mouseEvent.getPickResult().getIntersectedNode() instanceof AfbeeldingSteen) {
+                            veldAfbeelding = (AfbeeldingSteen) mouseEvent.getPickResult().getIntersectedNode();
+                            if (veldAfbeelding.getUrl() != null && !veldAfbeelding.getUrl().contains("wi")) {
 
-                            model.getSpelbord().verwijderSteen(veldAfbeelding.getXGrid(), veldAfbeelding.getYGrid());
-                            this.updateGridSpelBord();
+                                model.getSpelbord().verwijderSteen(veldAfbeelding.getXGrid(), veldAfbeelding.getYGrid());
+                                this.updateGridSpelBord();
 
-                            view.setCursor(new ImageCursor(new Image("/fotos/stenen/" + veldAfbeelding.getUrl() + ".png")));
+                                view.setCursor(new ImageCursor(new Image("/fotos/stenen/" + veldAfbeelding.getUrl() + ".png")));
 
-                            verplaatsing = new Steen(veldAfbeelding.getUrl());
+                                verplaatsing = new Steen(veldAfbeelding.getUrl());
 
-                            spelerAfbeelding = veldAfbeelding;
+                                spelerAfbeelding = veldAfbeelding;
+                            }
                         }
                     }
                 } else {
@@ -173,73 +184,80 @@ public class SpelPresenter {
          * Acties bij drukken op button eindebeurt
          **/
         view.getBtnEindeBeurt().setOnMouseClicked(mouseEvent -> {
-            if (model.getSpelbord().checkSpeelveld()) {
-
+            //if (model.getSpelbord().checkSpeelveld()) {
                 try {
                     int aantalPunten = 0;
-                    if (!model.getSpelers()[0].isEersteZet()) {
-                        Steen[][] vorigSpeelveld = Spel.getVorigSpeelveld();
-                        for (int i = 0; i < vorigSpeelveld.length; i++) {
-                            for (int j = 0; j < vorigSpeelveld[i].length; j++) {
-                                if (vorigSpeelveld[i][j] != model.getSpelbord().getSpeelVeld()[i][j]) {
-                                    aantalPunten += model.getSpelbord().getSpeelVeld()[i][j].getWaarde();
-                                }
-                            }
-                        }
-
-                        if (aantalPunten < Spelregels.getMinimunAantalPuntenEersteZet()) {
-                            Alert alert = new Alert(Alert.AlertType.ERROR, "Voor de eerste zet moet je " + Spelregels.getMinimunAantalPuntenEersteZet() + " halen.\nWil alles terug zetten?", ButtonType.YES, ButtonType.NO);
-                            alert.showAndWait().ifPresent(buttonType -> {
-                                if (buttonType == ButtonType.YES) {
-                                    try {
-                                        model.zetAllesTerug();
-                                        this.updateGridSpelBord();
-                                        this.updateView();
-                                    } catch (IOException e) {
-                                        this.setAlert("Fout bij het restoren");
+                    if (model.getSpelers()[model.getBeurt()].getStenen().size() == 0) {
+                        EindeView eindeView = new EindeView();
+                        new EindePresenter(model, eindeView);
+                        view.getScene().setRoot(eindeView);
+                    } else {
+                        if (!model.getSpelers()[0].isEersteZet()) {
+                            Steen[][] vorigSpeelveld = Spel.getVorigSpeelveld();
+                            for (int i = 0; i < vorigSpeelveld.length; i++) {
+                                for (int j = 0; j < vorigSpeelveld[i].length; j++) {
+                                    if (vorigSpeelveld[i][j] != model.getSpelbord().getSpeelVeld()[i][j]) {
+                                        aantalPunten += model.getSpelbord().getSpeelVeld()[i][j].getWaarde();
                                     }
                                 }
-                            });
+                            }
+
+                            if (aantalPunten < Spelregels.getMinimunAantalPuntenEersteZet()) {
+                                Alert alert = new Alert(Alert.AlertType.ERROR, "Voor de eerste zet moet je " + Spelregels.getMinimunAantalPuntenEersteZet() + " halen.\nWil alles terug zetten?", ButtonType.YES, ButtonType.NO);
+                                alert.showAndWait().ifPresent(buttonType -> {
+                                    if (buttonType == ButtonType.YES) {
+                                        try {
+                                            model.zetAllesTerug();
+                                            this.updateGridSpelBord();
+                                            this.updateView();
+                                        } catch (IOException e) {
+                                            this.setAlert("Fout bij het restoren");
+                                        }
+                                    }
+                                });
+                            } else {
+                                model.getSpelers()[0].setEersteZet(true);
+                                model.getSpelers()[0].verhoogZet();
+                                model.volgendeSpeler();
+                                model.zetAllesInJson();
+
+                                view.getLblEersteZet().setVisible(true);
+                                PauseTransition visiblePause = new PauseTransition(Duration.seconds(3));
+                                visiblePause.setOnFinished(
+                                        event -> view.getLblEersteZet().setVisible(false)
+                                );
+                                visiblePause.play();
+                                this.zettenComputer();
+
+                            }
+
                         } else {
-                            model.getSpelers()[0].setEersteZet(true);
                             model.volgendeSpeler();
                             model.getSpelers()[0].verhoogZet();
                             model.zetAllesInJson();
 
+
                             view.getLblEersteZet().setVisible(true);
-                            PauseTransition visiblePause = new PauseTransition( Duration.seconds(3)                            );
+                            PauseTransition visiblePause = new PauseTransition(
+                                    Duration.seconds(3)
+                            );
                             visiblePause.setOnFinished(
                                     event -> view.getLblEersteZet().setVisible(false)
                             );
                             visiblePause.play();
-
+                            this.zettenComputer();
                         }
 
-                    } else {
-                        model.volgendeSpeler();
-                        model.getSpelers()[0].verhoogZet();
-                        model.zetAllesInJson();
-
-
-                        view.getLblEersteZet().setVisible(true);
-                        PauseTransition visiblePause = new PauseTransition(
-                                Duration.seconds(3)
-                        );
-                        visiblePause.setOnFinished(
-                                event -> view.getLblEersteZet().setVisible(false)
-                        );
-                        visiblePause.play();
                     }
 
                 } catch (IOException e) {
                     this.setAlert("Fout bij het restoren");
                 }
-            } else {
+           /* } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Er zit een fout in.\nWil alles terug zetten?", ButtonType.YES, ButtonType.NO);
                 alert.showAndWait().ifPresent(buttonType -> {
                     if (buttonType == ButtonType.YES) {
                         try {
-                            model.zetAllesTerug();
                             model.zetAllesTerug();
                             this.updateGridSpelBord();
                             this.updateView();
@@ -248,7 +266,7 @@ public class SpelPresenter {
                         }
                     }
                 });
-            }
+            }*/
         });
 
 
@@ -340,10 +358,43 @@ public class SpelPresenter {
         model.getSpelers()[0].addSteen(extraSteen);
         model.getPot().getStenen().remove(extraSteen);
         model.getSpelers()[0].verhoogZet();
+        model.volgendeSpeler();
         model.zetAllesInJson();
         this.updateView();
-        model.volgendeSpeler();
+        this.updateGridSpelBord();
+        this.zettenComputer();
+
+
     }
+
+    private void zettenComputer() throws IOException {
+        model.setBeurt(1);
+        if (Computer.mogelijkheidZet()) {
+
+            List<Steen> speelbaar = Computer.getMogelijkeZetten(model.getPot(), model.getSpelers()[model.getBeurt()].isEersteZet());
+            if (speelbaar.size() >= Spelregels.getaantalStenenPerRij()) {
+                for (Steen steen : speelbaar) {
+                    model.getPot().getStenen().remove(steen);
+                }
+                int startX = model.getSpelbord().getStartNieuweRij().get(0);
+                int startY = model.getSpelbord().getStartNieuweRij().get(1);
+                if (startX != 99 && startY != 99) {
+
+                    for (int i = 0; i < speelbaar.size(); i++) {
+                        model.getSpelbord().plaatsSteen(startX + i, startY, speelbaar.get(i));
+                    }
+
+                }
+                model.getSpelers()[model.getBeurt()].setEersteZet(true);
+                this.updateGridSpelBord();
+                model.zetAllesInJson();
+
+            }
+
+            model.volgendeSpeler();
+        }
+    }
+
 
     private void setAlert(String bericht) {
         Alert alert = new Alert(Alert.AlertType.ERROR, bericht);

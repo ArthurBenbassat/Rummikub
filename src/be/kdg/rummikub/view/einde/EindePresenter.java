@@ -134,12 +134,12 @@ public class EindePresenter {
      * Berekening van winnaar en verliezer op eindscherm
      **/
     private void updateView() {
-        if (model.getSpelers()[model.getBeurt()] instanceof Speler) {
-            view.getLblWinner().setText(((Speler) model.getSpelers()[model.getBeurt()]).getNaam());
+        if (model.getBeurt() == 0) {
+            view.getLblWinner().setText("Speler");
             view.getLblVerliezer().setText("Computer");
         } else {
             view.getLblWinner().setText("Computer");
-            view.getLblVerliezer().setText(((Speler) model.getSpelers()[0]).getNaam());
+            view.getLblVerliezer().setText("Speler");
         }
     }
 }

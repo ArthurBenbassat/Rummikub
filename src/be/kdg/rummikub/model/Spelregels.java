@@ -33,10 +33,6 @@ public class Spelregels {
         return tekst.toString();
     }
 
-    public static int getTijdslimietInSeconden() {
-        JSONObject jsonObj = new JSONObject(getSpelregels());
-        return jsonObj.getInt("tijdslimietInSeconden");
-    }
 
     public static int getMinimunAantalPuntenEersteZet() {
         JSONObject jsonObj = new JSONObject(getSpelregels());

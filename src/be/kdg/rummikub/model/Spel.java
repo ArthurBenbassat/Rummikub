@@ -19,6 +19,7 @@ import java.util.*;
 
 /**
  * Deze klasse is de het hart van het spel. Deze stuurt alles aan.
+ *
  * @author Wouter Selis & Arthur Benbassat
  * @version 1.0
  **/
@@ -40,7 +41,7 @@ public class Spel {
         pot = new Pot();
 
         spelers = new Deelnemer[spelersAantal];
-        for (int i = 1; i < spelersAantal; i++){
+        for (int i = 1; i < spelersAantal; i++) {
             spelers[i] = new MakkelijkeComputer();
         }
         spelers[0] = new Speler("Speler");
@@ -50,7 +51,7 @@ public class Spel {
     }
 
     public void maakStenenAan() {
-        for (int x = 0; x < 2 ; x++) {
+        for (int x = 0; x < 2; x++) {
             for (int i = 1; i <= 13; i++) {
                 for (Kleur kleur : Kleur.values()) {
                     pot.addSteen(new Steen(kleur, i));
@@ -74,19 +75,20 @@ public class Spel {
 
     /**
      * Je zet de hier alles in terug van de vorige zet. Hierbij wordt alles terug opgenomen van het json bestand
+     *
      * @author Wouter Selis & Arthur Benbassat
      **/
-    public void zetAllesTerug() throws IOException{
+    public void zetAllesTerug() throws IOException {
         StringBuilder tekst = new StringBuilder();
-        Path bestand = Paths.get( "resources/jsonBestanden/spel.json");
+        Path bestand = Paths.get("resources/jsonBestanden/spel.json");
 
-        if (Files.exists(bestand)){
+        if (Files.exists(bestand)) {
             try {
                 Scanner fileScanner = new Scanner(bestand);
                 while (fileScanner.hasNext()) {
                     tekst.append(fileScanner.nextLine());
                 }
-            } catch (IOException e){
+            } catch (IOException e) {
                 throw new IOException(e);
             }
         }
@@ -101,6 +103,7 @@ public class Spel {
 
     /**
      * Je zet de hier alles json na een zet.
+     *
      * @author Wouter Selis & Arthur Benbassat
      */
     public void zetAllesInJson() throws IOException, RuntimeException {
@@ -122,7 +125,7 @@ public class Spel {
     }
 
 
-    public void startSpel(){
+    public void startSpel() {
         maakStenenAan();
         beurt = 0;
         startVerdeelStenen();
@@ -130,38 +133,20 @@ public class Spel {
 
     /**
      * De volgende speler wordt hier opgeroepen. ALs de coputer aanzet is worden zijn spelen ook hier gecreerd
+     *
      * @author Wouter Selis & Arthur Benbassat
      **/
-    public void volgendeSpeler() throws IOException{
+    public void volgendeSpeler()  {
         beurt++;
-        System.out.println("wow");
-        if (beurt == spelers.length){
+
+        if (beurt == spelers.length) {
             beurt = 0;
         }
-        if (beurt != 0) {
-            if (spelers[beurt] instanceof MakkelijkeComputer) {
-                ((MakkelijkeComputer) spelers[beurt]).berekenZet();
-                System.out.println("aantal opties: " + ((MakkelijkeComputer) spelers[beurt]).getZettenHand().size());
-                if (((MakkelijkeComputer) spelers[beurt]).getZettenHand().size() == 0) {
-                    System.out.println("extra");
-                    Steen extraSteen = getPot().getRandomSteen();
-                    spelers[beurt].addSteen(extraSteen);
-                    getPot().getStenen().remove(extraSteen);
-                    spelers[beurt].verhoogZet();
 
-                } else {
-                    for (List<Steen> zetten: ((MakkelijkeComputer) spelers[beurt]).getZettenHand()) {
-                        System.out.println("Rij" + zetten);
-                        for (int i = 0; i < zetten.size(); i++) {
-                            System.out.println(zetten.get(i));
-                        }
-                    }
-                }
+    }
 
-            }
-            zetAllesInJson();
-            this.volgendeSpeler();
-        }
+    public void setBeurt(int beurt) {
+        this.beurt = beurt;
     }
 
     public Pot getPot() {
@@ -180,15 +165,11 @@ public class Spel {
         return spelbord;
     }
 
-    public void setBeurt(int beurt) {
-        this.beurt = beurt;
-    }
-
     public static Steen[][] getVorigSpeelveld() throws IOException {
         StringBuilder tekst = new StringBuilder();
-        Path bestand = Paths.get( "resources/jsonBestanden/spel.json");
+        Path bestand = Paths.get("resources/jsonBestanden/spel.json");
 
-        if (Files.exists(bestand)){
+        if (Files.exists(bestand)) {
             Scanner fileScanner = new Scanner(bestand);
             while (fileScanner.hasNext()) {
                 tekst.append(fileScanner.nextLine());

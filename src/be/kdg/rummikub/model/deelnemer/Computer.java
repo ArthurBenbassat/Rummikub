@@ -1,24 +1,20 @@
 package be.kdg.rummikub.model.deelnemer;
 
 import be.kdg.rummikub.model.Spelregels;
+import be.kdg.rummikub.model.steen.Kleur;
+import be.kdg.rummikub.model.steen.Pot;
 import be.kdg.rummikub.model.steen.Steen;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+
 /**
  * Deze klasse is een Deelnemer. Dit bedenkt zelf zetten
+ *
  * @author Wouter Selis & Arthur Benbassat
  * @version 1.0
  */
 public abstract class Computer extends Deelnemer {
-    private List<List <Steen>> zettenHand;
     private int niveau;
-
-    public Computer() {
-        zettenHand = new ArrayList<>();
-    }
 
     public void setNiveau(int niveau) {
         this.niveau = niveau;
@@ -28,78 +24,141 @@ public abstract class Computer extends Deelnemer {
         return niveau;
     }
 
+    public static boolean mogelijkheidZet() {
+        Random rnd = new Random();
 
-    public List<List<Steen>> getZettenHand() {
-        return zettenHand;
+
+        if (rnd.nextInt(3) == 0) {
+            return true;
+        } else {
+            return false;
+        }
+
+
     }
 
-    public abstract void berekenZet();
+    public static List<Steen> getMogelijkeZetten(Pot pot, boolean eersteZet) {
+        Random rnd = new Random();
+        List<Steen> zetten;
+        int waarde;
+        if (eersteZet) {
+            waarde = rnd.nextInt(13) + 1;
+        } else {
+            waarde = rnd.nextInt(4) + 10;
+        }
 
-    public void berekenNummersHand() {
-        ArrayList<Steen> speelbaar = new ArrayList();
-        int normaleI;
-        int jokerGebruikt = 0;
-        getStenen().sort(new Comparator<Steen>() {
+        if (rnd.nextBoolean()) {
+            zetten = getRijDezelfdeWaarde(pot, waarde);
+        } else {
+            zetten = getRijOpeenvolgdeWaarde(pot, waarde);
+        }
+        
+        return zetten;
+    }
+
+    public static List<Steen> getRijDezelfdeWaarde(Pot pot, int waarde) {
+        List<Steen> tempSpeelbaar = new ArrayList<>();
+        List<Steen> speelbaar = new ArrayList<>();
+        for (int i = 0; i < pot.getStenen().size(); i++) {
+
+            if (pot.getStenen().get(i).getWaarde() == waarde) {
+                tempSpeelbaar.add(pot.getStenen().get(i));
+            }
+        }
+        if (tempSpeelbaar.size() >= Spelregels.getaantalStenenPerRij()) {
+            int verschillend = 0;
+            for (int i = 0; i < tempSpeelbaar.size(); i++) {
+                if (i != 0) {
+                    if (tempSpeelbaar.get(i).getKleur() != tempSpeelbaar.get(i - 1).getKleur()) {
+                        verschillend++;
+                    }
+                }
+            }
+            if (verschillend >= Spelregels.getaantalStenenPerRij()) {
+                Kleur[] algeweest = new Kleur[3];
+                int indexKleur = 0;
+                for (int i = 0; i < tempSpeelbaar.size(); i++) {
+                    if (algeweest[0] == null) {
+                        algeweest[indexKleur] = tempSpeelbaar.get(i).getKleur();
+                        indexKleur++;
+                        speelbaar.add(tempSpeelbaar.get(i));
+                    } else {
+                        boolean nietGeweest = true;
+                        for (Kleur kleur : algeweest) {
+                            if (kleur == tempSpeelbaar.get(i).getKleur()) {
+                                nietGeweest = false;
+                            }
+                        }
+                        if (nietGeweest) {
+                            if (indexKleur < 3) {
+                                speelbaar.add(tempSpeelbaar.get(i));
+                                algeweest[indexKleur] = tempSpeelbaar.get(i).getKleur();
+                                indexKleur++;
+                            }
+                        }
+                    }
+                }
+                if (speelbaar.size() < Spelregels.getaantalStenenPerRij()) {
+                    speelbaar.add(tempSpeelbaar.get(0));
+                }
+            }
+        }
+        return speelbaar;
+    }
+    
+    
+    public static List<Steen> getRijOpeenvolgdeWaarde(Pot pot, int waarde) {
+        Kleur kleur = pot.getStenen().get(0).getKleur();
+        boolean onder = false;
+        boolean boven = false;
+        boolean juiste = false;
+        List<Steen> speelbaar = new ArrayList<>();
+        for (int i = 0; i < pot.getStenen().size(); i++) {
+            if (pot.getStenen().get(i).getKleur() == kleur) {
+                if (waarde == 12) {
+                    if (pot.getStenen().get(i).getWaarde() == (waarde - 1) && !onder) {
+                        speelbaar.add(pot.getStenen().get(i));
+                        onder = true;
+                    } else if (pot.getStenen().get(i).getWaarde() == (waarde + 1) && !boven) {
+                        speelbaar.add(pot.getStenen().get(i));
+                        boven = true;
+                    } else if (pot.getStenen().get(i).getWaarde() == waarde && !juiste) {
+                        speelbaar.add(pot.getStenen().get(i));
+                        juiste = true;
+                    }
+
+                } else if (waarde == 13) {
+                    if (pot.getStenen().get(i).getWaarde() == (waarde - 1) && !onder) {
+                        speelbaar.add(pot.getStenen().get(i));
+                        onder = true;
+                    } else if (pot.getStenen().get(i).getWaarde() == (waarde - 2) && !boven) {
+                        speelbaar.add(pot.getStenen().get(i));
+                        boven = true;
+                    } else if (pot.getStenen().get(i).getWaarde() == waarde && !juiste) {
+                        speelbaar.add(pot.getStenen().get(i));
+                        juiste = true;
+                    }
+                } else {
+                    if (pot.getStenen().get(i).getWaarde() == (waarde + 1) && !onder) {
+                        speelbaar.add(pot.getStenen().get(i));
+                        onder = true;
+                    } else if (pot.getStenen().get(i).getWaarde() == (waarde + 2) && !boven) {
+                        speelbaar.add(pot.getStenen().get(i));
+                        boven = true;
+                    } else if (pot.getStenen().get(i).getWaarde() == waarde && !juiste) {
+                        speelbaar.add(pot.getStenen().get(i));
+                        juiste = true;
+                    }
+                }
+
+            }
+        }
+        speelbaar.sort(new Comparator<Steen>() {
             @Override
             public int compare(Steen o1, Steen o2) {
                 return o1.getWaarde() - o2.getWaarde();
             }
         });
-
-        for (int i = 0; i < getStenen().size(); i++) {
-            normaleI = i;
-            speelbaar.add(getStenen().get(i));;
-            if (getStenen().get(i).getWaarde() != 0) {
-                int groepjokers = jokerGebruikt;
-                for (int j =0; j <getStenen().size(); j++) {
-                    for (int afstand = 1; afstand <= 1 + groepjokers; afstand++) {
-                        if (getStenen().get(i) != getStenen().get(j) && getStenen().get(i).getKleur() == getStenen().get(j).getKleur() && getStenen().get(i).getWaarde() == getStenen().get(j).getWaarde() - afstand) {
-                            if (afstand > 1) {
-                                speelbaar.add(getStenen().get(0));
-                                groepjokers--;
-                            }
-                            speelbaar.add(getStenen().get(j));
-                            i = j;
-                            afstand += jokerGebruikt;
-                        }
-                    }
-                }
-
-                if (speelbaar.size() >= Spelregels.getaantalStenenPerRij()) {
-                    System.out.println(speelbaar);
-                    zettenHand.add(speelbaar);
-                    System.out.println(zettenHand.size());
-                    i = normaleI;
-
-                }
-            } else {
-                jokerGebruikt++;
-            }
-        }
-
-
+        return speelbaar;
     }
-    public void checkZetten() {
-        for (Iterator<List<Steen>> iterator = zettenHand.iterator(); iterator.hasNext(); ) {
-            List<Steen> next = iterator.next();
-            boolean bestaatAl = false;
-            for (Steen steen : next) {
-                for (int i = 0; i < zettenHand.size(); i++) {
-                    if (zettenHand.get(i) != steen) {
-                        for (int j = 0; j < zettenHand.get(i).size(); j++) {
-                            if (steen.getKleur() == zettenHand.get(i).get(j).getKleur() &&  steen.getWaarde() == zettenHand.get(i).get(j).getWaarde()){
-                                bestaatAl = true;
-                            }
-                        }
-                    }
-                }
-            }
-            if (bestaatAl) {
-                iterator.remove();
-            }
-        }
-    }
-
-
-
 }
