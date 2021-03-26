@@ -13,7 +13,7 @@ public class Steen {
         this.setPad();
     }
 
-    public Steen(String url) {
+    public Steen(String url) throws RuntimeException{
 
         if (url.contains("B")) {
             this.kleur = Kleur.BLAUW;
@@ -23,15 +23,11 @@ public class Steen {
             this.kleur = Kleur.GEEL;
         } else if ((url.contains("Z"))) {
             this.kleur = Kleur.ZWART;
-        } else {
-            System.out.println("error1");
         }
-        try {
-            this.waarde = Integer.parseInt(url.substring(1));
 
-        } catch (RuntimeException e) {
-            System.out.println("error: int niet gevonden\nint: " + waarde);
-        }
+        this.waarde = Integer.parseInt(url.substring(1));
+
+
 
         this.setPad();
     }

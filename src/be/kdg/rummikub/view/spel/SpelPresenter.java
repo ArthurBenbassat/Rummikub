@@ -184,7 +184,7 @@ public class SpelPresenter {
          * Acties bij drukken op button eindebeurt
          **/
         view.getBtnEindeBeurt().setOnMouseClicked(mouseEvent -> {
-            //if (model.getSpelbord().checkSpeelveld()) {
+            if (model.getSpelbord().checkSpeelveld()) {
                 try {
                     int aantalPunten = 0;
                     if (model.getSpelers()[model.getBeurt()].getStenen().size() == 0) {
@@ -253,7 +253,7 @@ public class SpelPresenter {
                 } catch (IOException e) {
                     this.setAlert("Fout bij het restoren");
                 }
-           /* } else {
+            } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Er zit een fout in.\nWil alles terug zetten?", ButtonType.YES, ButtonType.NO);
                 alert.showAndWait().ifPresent(buttonType -> {
                     if (buttonType == ButtonType.YES) {
@@ -266,7 +266,7 @@ public class SpelPresenter {
                         }
                     }
                 });
-            }*/
+            }
         });
 
 

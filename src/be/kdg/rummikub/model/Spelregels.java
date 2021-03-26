@@ -15,36 +15,33 @@ import java.util.Scanner;
  * @version 1.0
  * */
 public class Spelregels {
-    public static String getSpelregels() {
+    public static String getSpelregels() throws IOException{
         StringBuilder tekst = new StringBuilder();
         Path bestand = Paths.get( "resources/jsonBestanden/spelregels.json");
 
         if (Files.exists(bestand)){
-            try {
 
                 Scanner fileScanner = new Scanner(bestand);
                 while (fileScanner.hasNext()) {
                     tekst.append(fileScanner.nextLine());
                 }
-            } catch (IOException e){
-                System.out.println(e.toString());
-            }
+
         }
         return tekst.toString();
     }
 
 
-    public static int getMinimunAantalPuntenEersteZet() {
+    public static int getMinimunAantalPuntenEersteZet() throws IOException {
         JSONObject jsonObj = new JSONObject(getSpelregels());
         return jsonObj.getInt("aantalPuntenMinimaalEersteZet");
     }
 
-    public static int getstartAantalSteentejes() {
+    public static int getstartAantalSteentejes() throws IOException {
         JSONObject jsonObj = new JSONObject(getSpelregels());
         return jsonObj.getInt("startAantalSteentjes");
     }
 
-    public static int getaantalStenenPerRij() {
+    public static int getaantalStenenPerRij() throws IOException {
         JSONObject jsonObj = new JSONObject(getSpelregels());
         return jsonObj.getInt("aantalStenenPerRij");
     }

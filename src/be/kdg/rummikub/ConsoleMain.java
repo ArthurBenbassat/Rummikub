@@ -9,16 +9,6 @@ import java.util.Scanner;
 
 public class ConsoleMain {
     public static void main(String[] args) {
-        try {
-            //Statistieken.setStatistieken(7);
-            //Statistieken.setStatistieken(15);
-            //Statistieken.setStatistieken(10);
-            Statistieken.setStatistieken(14);
-        } catch (IOException e) {
-            System.out.println("kkr");
-        }
-
-        System.exit(0);
 
         Spel spel = new Spel(2);
         Scanner keyboard = new Scanner(System.in);
