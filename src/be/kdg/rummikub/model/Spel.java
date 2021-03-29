@@ -36,7 +36,7 @@ public class Spel {
         this.spelbord = spelbord;
     }
 
-    public Spel(int spelersAantal) {
+    public Spel(int spelersAantal) throws IOException {
         spelbord = new Spelbord();
         pot = new Pot();
 
@@ -62,7 +62,7 @@ public class Spel {
         pot.addSteen(new Steen(Kleur.ROOD, 0));
     }
 
-    public void startVerdeelStenen() {
+    public void startVerdeelStenen() throws IOException {
         for (Deelnemer speler : spelers) {
             for (int j = 0; j < Spelregels.getstartAantalSteentejes(); j++) {
                 Steen steen = pot.getRandomSteen();
@@ -125,7 +125,7 @@ public class Spel {
     }
 
 
-    public void startSpel() {
+    public void startSpel() throws IOException {
         maakStenenAan();
         beurt = 0;
         startVerdeelStenen();

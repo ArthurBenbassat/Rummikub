@@ -41,7 +41,7 @@ public class StatsView extends BorderPane {
 
     }
 
-    public Label getLblStatistieken() {
+    Label getLblStatistieken() {
         return lblStatistieken;
     }
 }

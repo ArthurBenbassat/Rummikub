@@ -10,7 +10,12 @@ import java.util.Scanner;
 public class ConsoleMain {
     public static void main(String[] args) {
 
-        Spel spel = new Spel(2);
+        Spel spel = null;
+        try {
+            spel = new Spel(2);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Scanner keyboard = new Scanner(System.in);
 
         while(true){

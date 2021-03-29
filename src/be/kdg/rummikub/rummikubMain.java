@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.Optional;
 
 public class rummikubMain extends Application {
@@ -17,7 +18,12 @@ public class rummikubMain extends Application {
     public void start(Stage primaryStage) {
 
 
-        Spel model = new Spel(2);
+        Spel model = null;
+        try {
+            model = new Spel(2);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         StartView startView = new StartView();
         new StartPresenter(model, startView);
         Scene scene = new Scene(startView);

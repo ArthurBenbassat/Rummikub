@@ -5,6 +5,7 @@ import be.kdg.rummikub.model.steen.Kleur;
 import be.kdg.rummikub.model.steen.Pot;
 import be.kdg.rummikub.model.steen.Steen;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -37,7 +38,7 @@ public abstract class Computer extends Deelnemer {
 
     }
 
-    public static List<Steen> getMogelijkeZetten(Pot pot, boolean eersteZet) {
+    public static List<Steen> getMogelijkeZetten(Pot pot, boolean eersteZet) throws IOException {
         Random rnd = new Random();
         List<Steen> zetten;
         int waarde;
@@ -56,7 +57,7 @@ public abstract class Computer extends Deelnemer {
         return zetten;
     }
 
-    public static List<Steen> getRijDezelfdeWaarde(Pot pot, int waarde) {
+    public static List<Steen> getRijDezelfdeWaarde(Pot pot, int waarde) throws IOException {
         List<Steen> tempSpeelbaar = new ArrayList<>();
         List<Steen> speelbaar = new ArrayList<>();
         for (int i = 0; i < pot.getStenen().size(); i++) {

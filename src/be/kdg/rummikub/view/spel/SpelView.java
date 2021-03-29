@@ -5,11 +5,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
+
+import javax.swing.text.html.ImageView;
 
 public class SpelView extends BorderPane {
     private GridPane gdpEigenStenen;
@@ -61,7 +62,7 @@ public class SpelView extends BorderPane {
 
         veldRijen = (int) Math.floor((screenBounds.getHeight() - 200) / 75 );
         veldKolommen = (int) Math.floor((screenBounds.getWidth() - 150) / 50);
-
+        
         for (int i = 0; i < veldRijen; i++) {
             for (int j = 0; j < veldKolommen; j++) {
                 AfbeeldingSteen afbeeldingSteen = new AfbeeldingSteen("/fotos/wit.png", j, i);
